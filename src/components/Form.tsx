@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Query } from "../models/Query";
+import axios from 'axios';
 
 export interface IFormData {
   name: string;
@@ -29,6 +30,22 @@ export function Form() {
     query.numOfPeople = formData.numberOfGuests;
     console.log(query);
   }
+
+  useEffect(()=> {
+    axios.post('http://localhost:8000/', {
+      name: "Love"
+    })
+    .then(function (response) {
+      console.log(response.data);
+    })
+  }, [])
+
+  useEffect(() => {
+    axios.get("http://localhost:8000/").then(
+        response => {
+            console.log(response.data);
+        })
+  }, [])
 
 
   return (
