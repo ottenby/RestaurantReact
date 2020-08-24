@@ -33,7 +33,7 @@ export function Form() {
 
   useEffect(()=> {
     axios.post('http://localhost:8000/', {
-      name: "Love"
+      name: "Lovis"
     })
     .then(function (response) {
       console.log(response.data);
