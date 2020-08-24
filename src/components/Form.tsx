@@ -2,6 +2,19 @@ import React, { useState, useEffect } from "react";
 import { Query } from "../models/Query";
 import axios from 'axios';
 
+
+export interface IBooking {
+
+  _id: string;
+  guestName: string;
+  amountOfGuests: string;
+  customerId: string;
+  time: String,
+  date: String,
+  bookingActive: boolean;
+  bookingFinished: boolean;
+}
+
 export interface IFormData {
   name: string;
   date: string;
@@ -31,21 +44,42 @@ export function Form() {
     console.log(query);
   }
 
+ 
+
   useEffect(()=> {
     axios.post('http://localhost:8000/', {
       name: "Lovis"
     })
     .then(function (response) {
-      console.log(response.data);
+      
     })
   }, [])
+  
+  let defaultValue: IBooking[] = [];
+  const[bookings, setBookings] = useState(defaultValue);
 
   useEffect(() => {
     axios.get("http://localhost:8000/").then(
         response => {
-            console.log(response.data);
+          let bookings: IBooking[] = response.data.map( (b: IBooking) => {
+            console.log(b)
+            return {
+              id: b._id, 
+              numberOfGuests: b.amountOfGuests,
+              guestId: b.customerId,
+              sitting: b.time,
+              date: b.date,
+              active: b.bookingActive,
+              finished: b.bookingFinished
+            }
+          }) 
+          
+          setBookings(bookings)
+          
         })
   }, [])
+  console.log(bookings);
+
 
 
   return (
