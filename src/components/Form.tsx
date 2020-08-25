@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Query } from "../models/Query";
 import axios from 'axios';
 
 export class Booking {
@@ -8,7 +7,7 @@ export class Booking {
   amountOfGuests: string = '';
   customerId: string = '';
   time: string = '';
-  date: string = ';'
+  date: string = '';
   bookingActive: boolean = false;
   bookingFinished: boolean = false;
 }
@@ -52,12 +51,7 @@ export function Form() {
 
   console.log(formData);
 
-  function newQuery() {
-    let query = new Query();
-    query.date = formData.date;
-    query.numOfPeople = formData.numberOfGuests;
-    console.log(query);
-  }
+
 
 
   function checkIfTable() {
@@ -87,18 +81,21 @@ export function Form() {
     console.log(earlyBookings)
     console.log(lateBookings)
     if (earlyBookings.length < 14) {
-      renderEarlyButton(earlyBookings) 
+      renderEarlyButton() 
     }
 
     if (lateBookings.length < 14) {
-      // renderLateButton(lateBookings) 
+        renderLateButton() 
     }
   }
 
-  function renderEarlyButton(bookings: IBooking[]) {
+  function renderEarlyButton() {
     console.log('tidig')
+    let variable = document.getElementById('second-form')
+    console.log(variable);
+
   }
-  function renderLateButton(bookings: IBooking[]) {
+  function renderLateButton() {
     console.log('sen')
   }
 
@@ -151,9 +148,7 @@ export function Form() {
         })
   }, [])
 
-function showSecondForm() {
 
-}
 
 
   return (
@@ -183,7 +178,7 @@ function showSecondForm() {
         Check for available tables
       </button>
 
-      <div className="second-form">
+      <div className="second-form" id="second-form">
         <input
           type="text"
           name="mobile"
