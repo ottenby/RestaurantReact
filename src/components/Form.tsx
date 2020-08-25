@@ -27,6 +27,8 @@ export interface IFormData {
   name: string;
   date: string;
   numberOfGuests: string;
+  phone: string;
+  email: string;
 }
 
 export function Form() {
@@ -114,9 +116,7 @@ export function Form() {
 
 
   useEffect(()=> {
-    axios.post('http://localhost:8000/', {
-      name: "Lovis"
-    })
+    axios.post('http://localhost:8000/',)
     .then(function () {
       
     })
@@ -172,7 +172,7 @@ export function Form() {
         onChange={e => updateFormValues(e, "numberOfGuests")}
       />
       <button
-        /*onClick={newQuery}*/>
+        onClick={checkIfTable}>
         Check for available tables
       </button>
 
