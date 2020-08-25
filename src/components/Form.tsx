@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Query } from "../models/Query";
 import axios from 'axios';
 
 export class Booking {
@@ -52,14 +51,6 @@ export function Form() {
 
   console.log(formData);
 
-  function newQuery() {
-    let query = new Query();
-    query.date = formData.date;
-    query.numOfPeople = formData.numberOfGuests;
-    console.log(query);
-  }
-
-
   function checkIfTable() {
     let listOfBookingsSameDay = bookings.filter(booking => booking.date === formData.date);
     console.log(listOfBookingsSameDay);
@@ -87,18 +78,18 @@ export function Form() {
     console.log(earlyBookings)
     console.log(lateBookings)
     if (earlyBookings.length < 14) {
-      renderEarlyButton(earlyBookings) 
+      renderEarlyButton() 
     }
 
     if (lateBookings.length < 14) {
-      // renderLateButton(lateBookings) 
+      renderLateButton() 
     }
   }
 
-  function renderEarlyButton(bookings: IBooking[]) {
+  function renderEarlyButton() {
     console.log('tidig')
   }
-  function renderLateButton(bookings: IBooking[]) {
+  function renderLateButton() {
     console.log('sen')
   }
 
@@ -151,11 +142,6 @@ export function Form() {
         })
   }, [])
 
-function showSecondForm() {
-
-}
-
-
   return (
     <>
       <input
@@ -198,7 +184,6 @@ function showSecondForm() {
           className="email"
           onChange={e => updateFormValues(e, "email")}
         />
-
 
           <button onClick={()=> {newBooking('18.00')}}>18.00</button>
           <button onClick={()=> {newBooking('20.30')}}>20.30</button>
