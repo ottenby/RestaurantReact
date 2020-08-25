@@ -1,0 +1,8 @@
+komponentsstruktur:
+
+                app
+
+    guestView                 adminView
+form    checkifTable        info    table
+
+

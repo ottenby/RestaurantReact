@@ -1,6 +1,16 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 
+export class Booking {
+  _id: string = '';
+  guestName: string = '';
+  amountOfGuests: string = '';
+  customerId: string = '';
+  time: string = '';
+  date: string = '';
+  bookingActive: boolean = false;
+  bookingFinished: boolean = false;
+}
 export interface IBooking {
 
   _id: string;
@@ -23,7 +33,10 @@ export function Form() {
   const [formData, setFormData] = useState<IFormData>({
     name: "",
     date: "",
-    numberOfGuests: ""
+    numberOfGuests: "",
+    phone:"" ,
+    email:""
+
   });
 
   function updateFormValues(
@@ -34,6 +47,70 @@ export function Form() {
   }
 
   console.log(formData);
+
+
+
+
+  function checkIfTable() {
+    let listOfBookingsSameDay = bookings.filter(booking => booking.date === formData.date);
+    console.log(listOfBookingsSameDay);
+
+    continueToCheck(listOfBookingsSameDay) 
+  }
+
+  let earlyBookings: IBooking[] = [];
+  let lateBookings: IBooking[] = [];
+
+  
+
+  function continueToCheck(array: IBooking[]) {
+
+    for (let i = 0; i < array.length; i++) {
+      
+      if(array[i].time === '18.00') {
+        earlyBookings.push(array[i])
+      } else {
+        lateBookings.push(array[i])
+      }
+      
+    }
+
+    console.log(earlyBookings)
+    console.log(lateBookings)
+    if (earlyBookings.length < 14) {
+      renderEarlyButton() 
+    }
+
+    if (lateBookings.length < 14) {
+        renderLateButton() 
+    }
+  }
+
+  function renderEarlyButton() {
+    console.log('tidig')
+    let variable = document.getElementById('second-form')
+    console.log(variable);
+
+  }
+  function renderLateButton() {
+    console.log('sen')
+  }
+
+  let aBooking = new Booking()
+  function newBooking(text: string) {
+
+    
+    aBooking.time = text;
+    aBooking.bookingFinished = false;
+    aBooking.bookingActive = true;
+    aBooking.amountOfGuests = formData.numberOfGuests;
+    aBooking.date = formData.date;
+    aBooking.guestName = formData.name;
+    // aBooking.customerId =
+
+    console.log(aBooking);
+    
+  }
 
 
   useEffect(()=> {
@@ -98,6 +175,28 @@ export function Form() {
         /*onClick={newQuery}*/>
         Check for available tables
       </button>
+
+      <div className="second-form" id="second-form">
+        <input
+          type="text"
+          name="mobile"
+          placeholder="Phone Number"
+          className="mobile"
+          onChange={e => updateFormValues(e, "phone")}
+        />
+        <input
+          type="text"
+          name="email"
+          placeholder="Email"
+          className="email"
+          onChange={e => updateFormValues(e, "email")}
+        />
+
+
+          <button onClick={()=> {newBooking('18.00')}}>18.00</button>
+          <button onClick={()=> {newBooking('20.30')}}>20.30</button>
+
+      </div>
     </>
   );
 }
