@@ -7,7 +7,7 @@ export class Booking {
   amountOfGuests: string = '';
   customerId: string = '';
   time: string = '';
-  date: string = ';'
+  date: string = '';
   bookingActive: boolean = false;
   bookingFinished: boolean = false;
 }
@@ -51,6 +51,9 @@ export function Form() {
 
   console.log(formData);
 
+
+
+
   function checkIfTable() {
     let listOfBookingsSameDay = bookings.filter(booking => booking.date === formData.date);
     console.log(listOfBookingsSameDay);
@@ -82,12 +85,15 @@ export function Form() {
     }
 
     if (lateBookings.length < 14) {
-      renderLateButton() 
+        renderLateButton() 
     }
   }
 
   function renderEarlyButton() {
     console.log('tidig')
+    let variable = document.getElementById('second-form')
+    console.log(variable);
+
   }
   function renderLateButton() {
     console.log('sen')
@@ -142,6 +148,9 @@ export function Form() {
         })
   }, [])
 
+
+
+
   return (
     <>
       <input
@@ -169,7 +178,7 @@ export function Form() {
         Check for available tables
       </button>
 
-      <div className="second-form">
+      <div className="second-form" id="second-form">
         <input
           type="text"
           name="mobile"
