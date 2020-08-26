@@ -1,0 +1,28 @@
+
+.table-active {
+    background-color: green;
+}
+.table-not-active {
+    background-color: gray;
+}
+.table {
+    width: 18%;
+    height: 400px;
+    margin: 20px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+
+}
+.sitting {
+    border: 1px solid black;
+    margin: 3px;
+    padding: 3px;
+    min-height: 120px;
+}
+.floor {
+    flex-direction: row;
+    justify-content: center;
+    display: flex;
+    flex-wrap: wrap;
+}

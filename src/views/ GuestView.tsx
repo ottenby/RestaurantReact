@@ -1,13 +1,13 @@
 import React from 'react';
-import { Form } from '../components/from/Form';
-import { GuestTables } from '../components/guestTables/GusetTables';
+import { Tables } from '../components/admin/tables/Tables';
+import { GuestParent } from '../components/guest/GuestParent';
 
 export function GuestView() {
 
     return(
         <React.Fragment>
-            <Form></Form>
-            <GuestTables></GuestTables>
+            <GuestParent></GuestParent>
+            <Tables></Tables>
         </React.Fragment>
     )
 }
