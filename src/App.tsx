@@ -1,16 +1,14 @@
 import React from 'react';
 
 import './App.css';
-import { FormView } from './views/FormView';
-import { Tables } from './components/tables/Tables';
+import { AdminView } from './views/AdminView';
+import { GuestView } from './views/ GuestView';
 
 function App() {
   return (
     <React.Fragment>
-
-      <FormView></FormView>
-      <Tables></Tables>
- 
+      <AdminView></AdminView> 
+      <GuestView></GuestView>
     </React.Fragment>
   );
 }
