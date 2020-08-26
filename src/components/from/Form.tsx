@@ -17,8 +17,8 @@ export interface IBooking {
   guestName: string;
   amountOfGuests: string;
   customerId: string;
-  time: string,
-  date: string,
+  time: String,
+  date: String,
   bookingActive: boolean;
   bookingFinished: boolean;
 }
@@ -31,15 +31,14 @@ export interface IFormData {
   email: string;
 }
 
-
-
 export function Form() {
   const [formData, setFormData] = useState<IFormData>({
     name: "",
     date: "",
     numberOfGuests: "",
-    phone: "",
-    email: ""
+    phone:"" ,
+    email:""
+
   });
 
   function updateFormValues(
@@ -99,7 +98,7 @@ export function Form() {
     console.log('sen')
   }
 
-  let aBooking = new Booking;
+  let aBooking = new Booking()
   function newBooking(text: string) {
 
     
@@ -117,37 +116,36 @@ export function Form() {
 
 
   useEffect(()=> {
-    axios.post('http://localhost:8000/', {
+    axios.post('http://localhost:8000/',)
+    .then(function () {
       
     })
-    .then(function (response) {
-      console.log(response.data)
-    })
   }, [])
-
+  
   let defaultValue: IBooking[] = [];
   const[bookings, setBookings] = useState(defaultValue);
-  console.log(bookings);
+
   useEffect(() => {
     axios.get("http://localhost:8000/").then(
         response => {
           let bookings: IBooking[] = response.data.map( (b: IBooking) => {
+            console.log(b)
             return {
-              id: b._id,
+              id: b._id, 
               numberOfGuests: b.amountOfGuests,
               guestId: b.customerId,
-              time: b.time,
+              sitting: b.time,
               date: b.date,
               active: b.bookingActive,
               finished: b.bookingFinished
             }
-          })
-
+          }) 
+          
           setBookings(bookings)
-
+          
         })
   }, [])
-
+  console.log(bookings);
 
 
 
