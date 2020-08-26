@@ -1,13 +1,11 @@
 
 import React from 'react';
+import { AllTables } from '../../../models/Tables';
+import './Tables.css'
 
-import  './GuestTables.css';
-import { Tables } from '../../models/Tables';
+export function Tables() {
 
-
-export function GuestTables() {
-
-    let tables: Tables[] = [
+    let tables: AllTables[] = [
         {
             tableNumber: '1',
             firstSitting: {

@@ -1,7 +1,7 @@
 import { Sitting } from "./Sitting";
 
 
-export class Tables {
+export class AllTables {
     tableNumber: string = '';
     firstSitting: Sitting = {
         id: '', 

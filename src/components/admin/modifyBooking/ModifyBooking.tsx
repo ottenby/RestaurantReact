@@ -1,6 +1,6 @@
 import React from 'react';
 
-export function InfoTabel() {
+export function ModifyBooking() {
 
 
     return(
