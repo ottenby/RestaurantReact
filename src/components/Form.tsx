@@ -78,8 +78,13 @@ export function Form() {
       
     }
 
-    console.log(earlyBookings)
-    console.log(lateBookings)
+    console.log(earlyBookings);
+    console.log(lateBookings);
+
+    if(earlyBookings.length < 14 || lateBookings.length > 14) {
+      document.createElement('div').className="second-form-wrapper"
+      
+    }
     if (earlyBookings.length < 14) {
       renderEarlyButton() 
     }
