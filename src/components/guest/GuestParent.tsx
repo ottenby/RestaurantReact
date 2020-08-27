@@ -112,6 +112,7 @@ export function GuestParent() {
       {((earlyBookings && earlyBookings.length < 14) ||
         (lateBookings && lateBookings.length < 14)) && (
         <CreateBooking
+            guestList={guests}
           formData={formData}
           earlyBookings={earlyBookings}
           lateBookings={lateBookings}
