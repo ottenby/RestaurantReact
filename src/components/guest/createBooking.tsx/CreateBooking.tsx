@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { IFormData } from '../checkIfTableAvailable/CheckIfTableAvailable';
+import { IFormData, IBooking } from '../GuestParent';
 
 export class Booking {
     _id: string = '';
@@ -16,18 +16,6 @@ export class Booking {
 
    }
 
-export interface IBooking {
-  
-    // _id: string;
-    guestName: string;
-    amountOfGuests: string;
-    // customerId: string;
-    time: string,
-    date: string,
-    bookingActive: boolean;
-    bookingFinished: boolean;
-}
-
 export interface ISecondFormData {
     phone: "",
     email: "",
@@ -37,6 +25,8 @@ export interface ISecondFormData {
 
 export interface ICreatingBookingProps {
     formData: IFormData
+    lateBookings?: IBooking[];
+    earlyBookings?: IBooking[];
 }
 
 export default function CreateBooking(props: ICreatingBookingProps) {
@@ -53,7 +43,7 @@ export default function CreateBooking(props: ICreatingBookingProps) {
         setSecondFormData({ ...secondFormData, [id]: e.target.value});
     }
 
-    // const [readyToSend, setReadyToSend] = useState(false)
+
 
     let aBooking = new Booking();
     function newBooking(text: string) {
@@ -79,12 +69,7 @@ export default function CreateBooking(props: ICreatingBookingProps) {
         })
     }
 
-    // useEffect(()=> {
-    //     axios.post('http://localhost:8000/guests', aBooking)
-    //     .then(function (response) {
-    //         console.log(response.data)
-    //     })
-    // }, [aBooking])
+
     
     return(
     <>
@@ -105,8 +90,9 @@ export default function CreateBooking(props: ICreatingBookingProps) {
         onChange={e => updateSecondFormValues(e, "email")}
         />
         
-        <button onClick={()=> {newBooking('18.00')}}>18.00</button>
-        <button onClick={()=> {newBooking('20.30')}}>20.30</button>
+    {props.earlyBookings && props.earlyBookings.length < 14 &&   <button onClick={()=> {newBooking('18.00')}}>18.00</button>  }
+    {props.lateBookings && props.lateBookings.length < 14 &&   <button onClick={()=> {newBooking('20.30')}}>20.30</button>  }
+        
     
     </div>
     </>
