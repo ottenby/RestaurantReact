@@ -16,12 +16,6 @@ export default function CheckIfTableAvailable(
   return (
     <div id="booking-form">
       <input
-        type="text"
-        name="name"
-        placeholder="Name"
-        onChange={e => props.updateFormValues(e, "name")}
-      />
-      <input
         type="date"
         name="date"
         placeholder="Date"

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { IFormData, IBooking } from '../GuestParent';
+import { IFormData, IBooking, IGuest } from '../GuestParent';
 
 export class Booking {
     _id: string = '';
-    guestName: string = '';
+    name: string = '';
     amountOfGuests: string = '';
     customerId: string = '';
     time: string = '';
@@ -18,6 +18,7 @@ export class Booking {
 
 export interface ISecondFormData {
     phone: "",
+    name:"",
     email: "",
 }
 
@@ -25,16 +26,26 @@ export interface ISecondFormData {
 
 export interface ICreatingBookingProps {
     formData: IFormData
+    guestList: IGuest[]
     lateBookings?: IBooking[];
     earlyBookings?: IBooking[];
 }
 
-export default function CreateBooking(props: ICreatingBookingProps) {
+export function CreateBooking(props: ICreatingBookingProps) {
 
+    
     const [secondFormData, setSecondFormData] = useState<ISecondFormData>({
+        name:"",
         phone: "",
         email: "",
     });
+    
+    const [idToNumber, setIdToNumber] = useState(localStorage.getItem("id") || 0);
+
+    useEffect(() => {
+        let idToNumberStringify = JSON.stringify(idToNumber)
+        localStorage.setItem('id', idToNumberStringify);
+      }, [idToNumber]);
 
     function updateSecondFormValues(
         e: React.ChangeEvent<HTMLInputElement>,
@@ -53,14 +64,29 @@ export default function CreateBooking(props: ICreatingBookingProps) {
         aBooking.bookingActive = true;
         aBooking.amountOfGuests = props.formData.numberOfGuests;
         aBooking.date = props.formData.date;
-        aBooking.guestName = props.formData.name;
+        aBooking.name = secondFormData.name;
         aBooking.phone = secondFormData.phone;
         aBooking.email = secondFormData.email;
-        // aBooking.customerId =
-        // setReadyToSend(true)
+        aBooking.customerId = idToNumber.toString();
+
+        props.guestList.forEach(guest => {
+            if(guest.customerId !== aBooking.customerId) {
+                updateCustomerId(aBooking.customerId);
+                console.log(guest)
+            }
+            else {
+                console.log("Halloj")
+            }
+        });
         testFunction(aBooking);
     }
+    console.log(idToNumber)
 
+    function updateCustomerId(id: string) {
+        let idToNumber = parseInt(id)
+        idToNumber++
+        setIdToNumber(idToNumber)
+    }
 
     function testFunction(aBooking: Booking) {
         axios.post('http://localhost:8000/', aBooking)
@@ -73,8 +99,14 @@ export default function CreateBooking(props: ICreatingBookingProps) {
     
     return(
     <>
-    <div>Printar ut data från checkiftableavailable {props.formData.name} </div>
+    <div>Printar ut data från checkiftableavailable {props.formData.date} </div>
     <div className="second-form" id="second-form">
+    <input
+        type="text"
+        name="name"
+        placeholder="Name"
+        onChange={e => updateSecondFormValues(e, "name")}
+        />
         <input
         type="text"
         name="mobile"
