@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { IFormData, IBooking, IGuest } from '../GuestParent';
 
@@ -40,12 +40,12 @@ export function CreateBooking(props: ICreatingBookingProps) {
         email: "",
     });
     
-    const [idToNumber, setIdToNumber] = useState(localStorage.getItem("id") || 0);
+    // const [idToNumber, setIdToNumber] = useState(localStorage.getItem("id") || 0);
 
-    useEffect(() => {
-        let idToNumberStringify = JSON.stringify(idToNumber)
-        localStorage.setItem('id', idToNumberStringify);
-      }, [idToNumber]);
+    // useEffect(() => {
+    //     let idToNumberStringify = JSON.stringify(idToNumber)
+    //     localStorage.setItem('id', idToNumberStringify);
+    //   }, [idToNumber]);
 
     function updateSecondFormValues(
         e: React.ChangeEvent<HTMLInputElement>,
@@ -67,35 +67,32 @@ export function CreateBooking(props: ICreatingBookingProps) {
         aBooking.name = secondFormData.name;
         aBooking.phone = secondFormData.phone;
         aBooking.email = secondFormData.email;
-        aBooking.customerId = idToNumber.toString();
 
-        props.guestList.forEach(guest => {
-            if(guest.customerId !== aBooking.customerId) {
-                updateCustomerId(aBooking.customerId);
-                console.log(guest)
-            }
-            else {
-                console.log("Halloj")
-            }
-        });
+        // props.guestList.forEach(guest => {
+        //     if(guest.customerId !== aBooking.customerId) {
+        //         updateCustomerId(aBooking.customerId);
+        //         console.log(guest)
+        //     }
+        //     else {
+        //         console.log("Halloj")
+        //     }
+        // });
         testFunction(aBooking);
     }
-    console.log(idToNumber)
 
-    function updateCustomerId(id: string) {
-        let idToNumber = parseInt(id)
-        idToNumber++
-        setIdToNumber(idToNumber)
-    }
+    // function updateCustomerId(id: string) {
+    //     let idToNumber = parseInt(id)
+    //     idToNumber++
+    //     setIdToNumber(idToNumber)
+    // }
+    // console.log(idToNumber)
 
     function testFunction(aBooking: Booking) {
         axios.post('http://localhost:8000/', aBooking)
         .then((response) => {
-            console.log(response.data)
         })
+        console.log(props.guestList)
     }
-
-
     
     return(
     <>
