@@ -91,7 +91,6 @@ export function CreateBooking(props: ICreatingBookingProps) {
         axios.post('http://localhost:8000/', aBooking)
         .then((response) => {
         })
-        console.log(props.guestList)
     }
     
     return(

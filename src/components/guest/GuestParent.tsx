@@ -20,7 +20,7 @@ export interface IBooking {
 }
 
 export interface IGuest {
-    customerId: string;
+    _id: string;
     name: string;
     phone: string;
     email: string;
@@ -60,7 +60,7 @@ export function GuestParent() {
         let guests: IGuest[] = response.data.map((g: IGuest) => {
             return {
                 name: g.name,
-                customerId: g.customerId,
+               _id: g._id,
                 phone: g.phone,
                 email: g.email
             };
@@ -112,7 +112,7 @@ export function GuestParent() {
       {((earlyBookings && earlyBookings.length < 14) ||
         (lateBookings && lateBookings.length < 14)) && (
         <CreateBooking
-            guestList={guests}
+          guestList={guests}
           formData={formData}
           earlyBookings={earlyBookings}
           lateBookings={lateBookings}
