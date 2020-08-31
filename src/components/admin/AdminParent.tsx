@@ -1,14 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Tables } from './tables/Tables';
 import axios from 'axios';
-export interface IFormData {
-    date: string;
-    numberOfGuests: string;
-    phone?: string;
-    email?: string;
-  }
+import { ModifyBooking } from './modifyBooking/ModifyBooking';
   
-  export interface IBooking {
+
+export interface IBooking {
     amountOfGuests: string;
     customerId: string;
     time: string;
@@ -27,16 +23,18 @@ export interface IFormData {
 export function AdminParent() {
 
 
-  //const [earlyBookings, setEarlyBookings] = useState<IBooking[]>();
- // const [lateBookings, setLateBookings] = useState<IBooking[]>();
+
+  const [earlyBookings, setEarlyBookings] = useState<IBooking[]>();
+  const [lateBookings, setLateBookings] = useState<IBooking[]>();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const [guests, setGuests] = useState<IGuest[]>([]);
 
+  
   useEffect(() => {
     axios.get("http://localhost:8000/").then(response => {
       let bookings: IBooking[] = response.data.map((b: IBooking) => {
         return {
-        amountOfGuests: b.amountOfGuests,
+          amountOfGuests: b.amountOfGuests,
           customerId: b.customerId,
           time: b.time,
           date: b.date,
@@ -53,6 +51,7 @@ export function AdminParent() {
     axios.get("http://localhost:8000/api/v1/guests").then(response => {
         // console.log(response.data)
         let guests: IGuest[] = response.data.map((g: IGuest) => {
+            
             return {
                 name: g.name,
                _id: g._id,
@@ -60,47 +59,45 @@ export function AdminParent() {
                 email: g.email
             };
         });
-        setGuests(guests);
+        setGuests(guests)
         console.log(guests);
     })
   }, []);
   console.log(guests);
 
 
-  /*function checkAvailability() {
-    let listOfBookingsSameDay = bookings.filter(
-      booking => booking.date;
-    );
+  function checkAvailability() {
+   
 
     let earlyBookingsData: IBooking[] = [];
     let lateBookingsData: IBooking[] = [];
+    console.log(earlyBookingsData,lateBookingsData)
 
-
-    for (let i = 0; i < listOfBookingsSameDay.length; i++) {
-      if (listOfBookingsSameDay[i].time === "18.00") {
-        earlyBookingsData.push(listOfBookingsSameDay[i]);
+    for (let i = 0; i < bookings.length; i++) {
+      if (bookings[i].time === "18.00" ) {
+        earlyBookingsData.push(bookings[i]);
       } else {
-        lateBookingsData.push(listOfBookingsSameDay[i]);
+        lateBookingsData.push(bookings[i]);
       }
     }
 
     setEarlyBookings(earlyBookingsData);
     setLateBookings(lateBookingsData);
-
-  }*/
+   
+  }
 
 
 
   return (
     <React.Fragment>
-
       <Tables
           bookings={bookings}
-          //checkAvailability={checkAvailability()}
-         /*guestList={guests}
+          checkAvailability={checkAvailability}
           earlyBookings={earlyBookings}
-          lateBookings={lateBookings}*/
+          lateBookings={lateBookings}
         ></Tables>  
+       <ModifyBooking></ModifyBooking>
+   
 
     </React.Fragment>
   );

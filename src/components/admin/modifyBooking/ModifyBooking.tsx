@@ -1,9 +1,15 @@
+
 import React from 'react';
+ 
+    
+  
+  
+    
+    export function ModifyBooking() {
 
-export function ModifyBooking() {
-
-
-    return(
-        <div></div>
-    )
-}
+        return(
+            <React.Fragment>
+           </React.Fragment>
+    
+        )
+    }

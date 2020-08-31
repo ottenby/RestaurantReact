@@ -40,12 +40,6 @@ export function CreateBooking(props: ICreatingBookingProps) {
         email: "",
     });
     
-    // const [idToNumber, setIdToNumber] = useState(localStorage.getItem("id") || 0);
-
-    // useEffect(() => {
-    //     let idToNumberStringify = JSON.stringify(idToNumber)
-    //     localStorage.setItem('id', idToNumberStringify);
-    //   }, [idToNumber]);
 
     function updateSecondFormValues(
         e: React.ChangeEvent<HTMLInputElement>,
@@ -68,24 +62,9 @@ export function CreateBooking(props: ICreatingBookingProps) {
         aBooking.phone = secondFormData.phone;
         aBooking.email = secondFormData.email;
 
-        // props.guestList.forEach(guest => {
-        //     if(guest.customerId !== aBooking.customerId) {
-        //         updateCustomerId(aBooking.customerId);
-        //         console.log(guest)
-        //     }
-        //     else {
-        //         console.log("Halloj")
-        //     }
-        // });
         testFunction(aBooking);
     }
 
-    // function updateCustomerId(id: string) {
-    //     let idToNumber = parseInt(id)
-    //     idToNumber++
-    //     setIdToNumber(idToNumber)
-    // }
-    // console.log(idToNumber)
 
     function testFunction(aBooking: Booking) {
         axios.post('http://localhost:8000/', aBooking)
