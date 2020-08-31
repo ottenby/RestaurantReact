@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Tables } from './tables/Tables';
 import axios from 'axios';
-import { ModifyBooking } from './modifyBooking/ModifyBooking';
-  
 
 export interface IBooking {
     amountOfGuests: string;
     customerId: string;
+    _id: string;
     time: string;
     date: string;
     bookingActive: boolean;
@@ -22,13 +21,10 @@ export interface IBooking {
 
 export function AdminParent() {
 
-
-
   const [earlyBookings, setEarlyBookings] = useState<IBooking[]>();
   const [lateBookings, setLateBookings] = useState<IBooking[]>();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const [guests, setGuests] = useState<IGuest[]>([]);
-
   
   useEffect(() => {
     axios.get("http://localhost:8000/").then(response => {
@@ -36,6 +32,7 @@ export function AdminParent() {
         return {
           amountOfGuests: b.amountOfGuests,
           customerId: b.customerId,
+          _id: b._id,
           time: b.time,
           date: b.date,
           active: b.bookingActive,
@@ -65,7 +62,6 @@ export function AdminParent() {
   }, []);
   console.log(guests);
 
-
   function checkAvailability() {
    
 
@@ -86,8 +82,6 @@ export function AdminParent() {
    
   }
 
-
-
   return (
     <React.Fragment>
       <Tables
@@ -96,9 +90,6 @@ export function AdminParent() {
           earlyBookings={earlyBookings}
           lateBookings={lateBookings}
         ></Tables>  
-       <ModifyBooking></ModifyBooking>
-   
-
     </React.Fragment>
   );
 }

@@ -23,6 +23,7 @@ export default function CheckIfTableAvailable(
       />
       <input
         type="number"
+        min="1"
         max="6"
         name="number-of-guests"
         placeholder="Number of guests"

@@ -13,6 +13,7 @@ export interface IFormData {
 export interface IBooking {
   amountOfGuests: string;
   customerId: string;
+  _id: string;
   time: string;
   date: string;
   bookingActive: boolean;
@@ -43,6 +44,7 @@ export function GuestParent() {
         return {
           numberOfGuests: b.amountOfGuests,
           customerId: b.customerId,
+          _id: b._id,
           time: b.time,
           date: b.date,
           active: b.bookingActive,
@@ -66,7 +68,6 @@ export function GuestParent() {
             };
         });
         setGuests(guests);
-        console.log(guests);
     })
   }, []);
 
