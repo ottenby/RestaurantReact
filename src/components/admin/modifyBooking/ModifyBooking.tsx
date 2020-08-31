@@ -16,9 +16,15 @@ import { IBooking } from '../AdminParent';
             })
         },[id]);
 
+        function deleteBooking() {
+            axios.delete("http://localhost:8000/admin/delete/" + id).then(response => {
+                console.log(response)
+            })
+        }
+
         return(
             <React.Fragment>
-                <div>{oneBooking?.date}</div>
+                <div>{oneBooking?.date} <button onClick={() =>{deleteBooking()}}>Ta bort bokning</button></div>
            </React.Fragment>
     
         )

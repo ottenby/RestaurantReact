@@ -26,7 +26,7 @@ export default function CheckIfTableAvailable(
         min="1"
         max="6"
         name="number-of-guests"
-        placeholder="Number of guests"
+        placeholder="Antal gäster"
         className="num-of-guests"
         onChange={e => props.updateFormValues(e, "numberOfGuests")}
       />
