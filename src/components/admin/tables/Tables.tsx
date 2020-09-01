@@ -1,43 +1,73 @@
 import './Tables.css'
-import React from 'react';
+import React, { useState, ChangeEvent } from 'react';
 import { IBooking } from '../AdminParent';
-import { Link } from 'react-router-dom';
+import axios from 'axios';
+import { IGuest } from '../../guest/GuestParent';
 
 interface IpropsTable{
     bookings:IBooking[]
+    guests:IGuest[]
     earlyBookings?:IBooking[]
     lateBookings?:IBooking[]
-    checkAvailability: () => void; 
 }
 
 export function Tables(props:IpropsTable) {
 
-    console.log(props.bookings)
+    const [dateFromAdmin, setDateFromAdmin] = useState("");
+    const [allBookingsFromDate, setAllBookingsFromDate] = useState<IBooking[]>([]);
 
-    
-    let allBookings = props.bookings.map((table, i=parseInt(table.customerId))=> {
+    function updateDateValue(e: ChangeEvent<HTMLInputElement>) {
+        setDateFromAdmin(e.target.value)
+    }
 
-        return(
-            <div className="table" key={i}>
-                
-                <Link to={'/admin/'+table._id}>
-                    <div className="first-sitting sitting table-active">
-                        <h3>Tidig sittning</h3>
-                        <h4> {`Datum: ${table.date}`} </h4>
-                        <h5> {`Tid: ${table.time}`}</h5>
-                        <h5> {`Gäster: ${table.amountOfGuests}/6`}</h5>
-                        <p> {`- id:  ${table.customerId}`} </p>
-                    </div>
-                </Link>
-            </div>
-            
+    function showBookingsByDate() {
+        console.log(dateFromAdmin)
+        let filterBookingsByDate = props.bookings.filter(
+            booking => booking.date === dateFromAdmin
         )
+        console.log(filterBookingsByDate)
+        setAllBookingsFromDate(filterBookingsByDate)
+    }
+
+    function deleteBooking(id: string) {
+        console.log(id)
+        axios.delete("http://localhost:8000/admin/delete/" + id).then(response => {
+        })
+        window.location.reload(true);
+    }
+    
+    let allBookings = allBookingsFromDate.map((table, i=parseInt(table.customerId))=> {
+
+        return props.guests.map((guest, i=parseInt(guest._id)) => {
+
+            if(table.customerId === guest._id) {
+                return(
+                    <div className="table" key={i}>
+                        <div className="first-sitting sitting table-active">
+                            <h3>Tidig sittning</h3>
+                            <input type="date" value={table.date} />
+                            <input type="text" value={table.time} />
+                            <input type="number" value={table.amountOfGuests} />
+                            <input type="text" value={table.customerId} disabled />
+                            <div><button onClick={() => deleteBooking(table._id)}>Ta bort bokning</button></div>
+                            <input type="text" value={guest.email} />
+                            <input type="text" value={guest.name} />
+                            <input type="number" value={guest.phone} />
+                            <input type="text" value={guest._id} disabled />
+                        </div>
+                    </div>
+                )
+            }
+            else {
+                return (<div>No bookings</div>)
+            }
+        })
     }) 
 
     return(
         <>
-  
-            <button onClick={() => props.checkAvailability()}>Bokningar</button> 
+            <input type="date" value={dateFromAdmin} onChange={updateDateValue}></input>
+            <button onClick={showBookingsByDate}>Visa bokningar</button>
             <div className="all-bookings"> {allBookings} </div> 
                 
         </>

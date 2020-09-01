@@ -1,8 +1,11 @@
 import React from "react";
 import { IFormData } from "../GuestParent";
+import { IBooking } from "../../admin/AdminParent";
 
 export interface ICheckIfTableAvailableProps {
   formData: IFormData;
+  earlyBookings?: IBooking[];
+  lateBookings?: IBooking[];
   checkAvailability: () => void;
   updateFormValues: (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -13,7 +16,15 @@ export interface ICheckIfTableAvailableProps {
 export default function CheckIfTableAvailable(
   props: ICheckIfTableAvailableProps
 ) {
+
+    function showFullyBookedMessage() {
+        if((props.earlyBookings && props.earlyBookings?.length > 14) && (props.lateBookings && props.lateBookings?.length > 14)) {
+            return <div>Fullbokat</div>
+        }
+    }
+
   return (
+    <>
     <div id="booking-form">
       <input
         type="date"
@@ -23,7 +34,6 @@ export default function CheckIfTableAvailable(
       />
       <input
         type="number"
-        min="1"
         max="6"
         name="number-of-guests"
         placeholder="Antal gäster"
@@ -34,5 +44,7 @@ export default function CheckIfTableAvailable(
         Check for available tables
       </button>
     </div>
+    <div>{showFullyBookedMessage()}</div>
+    </>
   );
 }

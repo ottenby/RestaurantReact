@@ -8,7 +8,7 @@ import {
 import './App.css';
 import { AdminView } from './views/AdminView';
 import { GuestView } from './views/ GuestView';
-import { ModifyBooking } from './components/admin/modifyBooking/ModifyBooking';
+// import { ModifyBooking } from './components/admin/modifyBooking/ModifyBooking';
 
 function App() {
   return (
@@ -36,9 +36,9 @@ function App() {
       <Route path="/booking">
         <GuestView />
       </Route>
-      <Route path="/admin/:id">
+      {/* <Route path="/admin/:id">
           <ModifyBooking />
-        </Route>
+        </Route> */}
     </Switch>
     </div>
 </Router>

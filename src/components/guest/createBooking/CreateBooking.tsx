@@ -69,7 +69,6 @@ export function CreateBooking(props: ICreatingBookingProps) {
     
     return(
     <>
-    <div>Printar ut data från checkiftableavailable {props.formData.date} </div>
     <div className="second-form" id="second-form">
     <input
         type="text"
@@ -94,8 +93,8 @@ export function CreateBooking(props: ICreatingBookingProps) {
         
     {props.earlyBookings && props.earlyBookings.length < 14 &&   <button onClick={()=> {newBooking('18.00')}}>18.00</button>  }
     {props.lateBookings && props.lateBookings.length < 14 &&   <button onClick={()=> {newBooking('20.30')}}>20.30</button>  }
+    {/* {((props.earlyBookings && props.earlyBookings.length > 14) && (props.lateBookings && props.lateBookings.length > 14) && <div>FUllbokat</div>) } */}
     <div><button onClick={() => postBooking(aBooking)}>Boka</button></div> 
-    
     </div>
     </>
     )

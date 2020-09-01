@@ -21,10 +21,11 @@ export interface IBooking {
 
 export function AdminParent() {
 
-  const [earlyBookings, setEarlyBookings] = useState<IBooking[]>();
-  const [lateBookings, setLateBookings] = useState<IBooking[]>();
+//   const [earlyBookings, setEarlyBookings] = useState<IBooking[]>();
+//   const [lateBookings, setLateBookings] = useState<IBooking[]>();
   const [bookings, setBookings] = useState<IBooking[]>([]);
   const [guests, setGuests] = useState<IGuest[]>([]);
+//   const [dateFromAdmin, setDateFromAdmin] = useState("");
   
   useEffect(() => {
     axios.get("http://localhost:8000/").then(response => {
@@ -62,33 +63,20 @@ export function AdminParent() {
   }, []);
   console.log(guests);
 
-  function checkAvailability() {
-   
-
-    let earlyBookingsData: IBooking[] = [];
-    let lateBookingsData: IBooking[] = [];
-    console.log(earlyBookingsData,lateBookingsData)
-
-    for (let i = 0; i < bookings.length; i++) {
-      if (bookings[i].time === "18.00" ) {
-        earlyBookingsData.push(bookings[i]);
-      } else {
-        lateBookingsData.push(bookings[i]);
-      }
-    }
-
-    setEarlyBookings(earlyBookingsData);
-    setLateBookings(lateBookingsData);
-   
-  }
+//   function updateDateValue(e: ChangeEvent<HTMLInputElement>) {
+//       console.log("hejsan")
+//       setDateFromAdmin(dateFromAdmin)
+//   }
 
   return (
     <React.Fragment>
       <Tables
           bookings={bookings}
-          checkAvailability={checkAvailability}
-          earlyBookings={earlyBookings}
-          lateBookings={lateBookings}
+          guests={guests}
+        //   updateDate={updateDateValue}
+        //   adminDate={dateFromAdmin}
+        //   earlyBookings={earlyBookings}
+        //   lateBookings={lateBookings}
         ></Tables>  
     </React.Fragment>
   );
