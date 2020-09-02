@@ -29,6 +29,9 @@ export interface ICreatingBookingProps {
     guestList: IGuest[]
     lateBookings?: IBooking[];
     earlyBookings?: IBooking[];
+    bookings: IBooking[]
+    setBookings: (booking: IBooking[]) => void;
+    updateBookings: (b: IBooking) => void;
 }
 
 export function CreateBooking(props: ICreatingBookingProps) {
@@ -60,12 +63,12 @@ export function CreateBooking(props: ICreatingBookingProps) {
         aBooking.email = secondFormData.email;
     }
 
-    function postBooking(aBooking: Booking) {
+    function postBooking(aBooking: IBooking) {
         axios.post('http://localhost:8000/booking', aBooking)
         .then((response) => {
+            props.updateBookings(aBooking)
         })
-        console.log(aBooking)
-        console.log(Response)
+        console.log(props.bookings)
     }
     
     return(
@@ -94,7 +97,6 @@ export function CreateBooking(props: ICreatingBookingProps) {
         
     {props.earlyBookings && props.earlyBookings.length < 14 &&   <button onClick={()=> {newBooking('18.00')}}>18.00</button>  }
     {props.lateBookings && props.lateBookings.length < 14 &&   <button onClick={()=> {newBooking('20.30')}}>20.30</button>  }
-    {/* {((props.earlyBookings && props.earlyBookings.length > 14) && (props.lateBookings && props.lateBookings.length > 14) && <div>FUllbokat</div>) } */}
     <div><button onClick={() => postBooking(aBooking)}>Boka</button></div> 
     </div>
     </>

@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import CheckIfTableAvailable from "./checkIfTableAvailable/CheckIfTableAvailable";
-import axios from "axios";
 import { CreateBooking } from "./createBooking/CreateBooking";
 
 export interface IFormData {
@@ -27,7 +26,16 @@ export interface IGuest {
     email: string;
 }
 
-export function GuestParent() {
+interface IGuestParentProps {
+    bookings: IBooking[];
+    setBookings: (booking: IBooking[]) => void;
+    guests: IGuest[];
+    setGuests: (guest: IGuest[]) => void;
+    updateBookings: (b: IBooking) => void;
+}
+
+export function GuestParent(props: IGuestParentProps) {
+
   const [formData, setFormData] = useState<IFormData>({
     date: "",
     numberOfGuests: ""
@@ -35,41 +43,6 @@ export function GuestParent() {
 
   const [earlyBookings, setEarlyBookings] = useState<IBooking[]>();
   const [lateBookings, setLateBookings] = useState<IBooking[]>();
-  const [bookings, setBookings] = useState<IBooking[]>([]);
-  const [guests, setGuests] = useState<IGuest[]>([]);
-
-  useEffect(() => {
-    axios.get("http://localhost:8000/").then(response => {
-      let bookings: IBooking[] = response.data.map((b: IBooking) => {
-        return {
-          numberOfGuests: b.amountOfGuests,
-          customerId: b.customerId,
-          _id: b._id,
-          time: b.time,
-          date: b.date,
-          active: b.bookingActive,
-          finished: b.bookingFinished
-        };
-      });
-      setBookings(bookings);
-      console.log(bookings)
-    });
-  }, []);
-
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/v1/guests").then(response => {
-        // console.log(response.data)
-        let guests: IGuest[] = response.data.map((g: IGuest) => {
-            return {
-                name: g.name,
-               _id: g._id,
-                phone: g.phone,
-                email: g.email
-            };
-        });
-        setGuests(guests);
-    })
-  }, []);
 
   function updateFormValues(
     e: React.ChangeEvent<HTMLInputElement>,
@@ -79,7 +52,7 @@ export function GuestParent() {
   }
 
   function checkAvailability() {
-    let listOfBookingsSameDay = bookings.filter(
+    let listOfBookingsSameDay = props.bookings.filter(
       booking => booking.date === formData.date
     );
 
@@ -113,10 +86,13 @@ export function GuestParent() {
       {((earlyBookings && earlyBookings.length < 14) ||
         (lateBookings && lateBookings.length < 14)) && (
         <CreateBooking
-          guestList={guests}
+            bookings={props.bookings}
+            setBookings={props.setBookings}
+          guestList={props.guests}
           formData={formData}
           earlyBookings={earlyBookings}
           lateBookings={lateBookings}
+          updateBookings={props.updateBookings}
         />
       )}
     </React.Fragment>
