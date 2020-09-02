@@ -80,20 +80,35 @@ export function CreateBooking(props: ICreatingBookingProps) {
         });
         testFunction(aBooking);
     }
-    console.log(idToNumber)
+    console.log(aBooking);
 
     function updateCustomerId(id: string) {
+        console.log(id);
         let idToNumber = parseInt(id)
         idToNumber++
         setIdToNumber(idToNumber)
     }
+
+    console.log(idToNumber)
 
     function testFunction(aBooking: Booking) {
         axios.post('http://localhost:8000/', aBooking)
         .then((response) => {
             console.log(response.data)
         })
+        // checkForDubbles()
     }
+    // function checkForDubbles() {
+
+    //         let newArray: IGuest[] =props.guestList.filter((guest: IGuest)=> 
+    //             guest.email === aBooking.email
+    //         )
+    //         if(newArray.length >1) {
+    //             props.guestList.pop()
+
+    //         }
+    //         console.log(props.guestList);
+    // }
 
 
     

@@ -4,6 +4,8 @@ import { IFormData } from "../GuestParent";
 export interface ICheckIfTableAvailableProps {
   formData: IFormData;
   checkAvailability: () => void;
+
+  
   updateFormValues: (
     e: React.ChangeEvent<HTMLInputElement>,
     id: keyof IFormData
