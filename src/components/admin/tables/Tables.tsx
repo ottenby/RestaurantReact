@@ -66,6 +66,7 @@ export function Tables(props:IpropsTable) {
 
     return(
         <>
+
             <input type="date" value={dateFromAdmin} onChange={updateDateValue}></input>
             <button onClick={showBookingsByDate}>Visa bokningar</button>
             <div className="all-bookings"> {allBookings} </div> 

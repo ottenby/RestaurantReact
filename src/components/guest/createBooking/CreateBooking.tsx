@@ -65,6 +65,7 @@ export function CreateBooking(props: ICreatingBookingProps) {
         .then((response) => {
         })
         console.log(aBooking)
+        console.log(Response)
     }
     
     return(

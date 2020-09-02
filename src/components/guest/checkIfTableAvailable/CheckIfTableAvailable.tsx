@@ -19,11 +19,12 @@ export default function CheckIfTableAvailable(
   props: ICheckIfTableAvailableProps
 ) {
 
+
     function showFullyBookedMessage() {
-        if((props.earlyBookings && props.earlyBookings?.length > 14) && (props.lateBookings && props.lateBookings?.length > 14)) {
-            return <div>Fullbokat</div>
-        }
-    }
+      if((props.earlyBookings && props.earlyBookings.length > 14) && (props.lateBookings && props.lateBookings.length > 14)) {
+          return <div>Fullbokat</div>
+      }
+  }
 
   return (
     <>
