@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Tables } from './tables/Tables';
 import axios from 'axios';
 
@@ -19,64 +19,59 @@ export interface IBooking {
       email: string;
   }
 
-export function AdminParent() {
+  interface IAdminParentProps {
+    bookings: IBooking[];
+    setBookings: (booking: IBooking[]) => void;
+    guests: IGuest[];
+    getBookingsByDate: IBooking[]
+    setGetBookingsByDate: (b: IBooking[]) => void;
+  }
 
-//   const [earlyBookings, setEarlyBookings] = useState<IBooking[]>();
-//   const [lateBookings, setLateBookings] = useState<IBooking[]>();
-  const [bookings, setBookings] = useState<IBooking[]>([]);
-  const [guests, setGuests] = useState<IGuest[]>([]);
-//   const [dateFromAdmin, setDateFromAdmin] = useState("");
-  
-  useEffect(() => {
-    axios.get("http://localhost:8000/").then(response => {
-      let bookings: IBooking[] = response.data.map((b: IBooking) => {
-        return {
-          amountOfGuests: b.amountOfGuests,
-          customerId: b.customerId,
-          _id: b._id,
-          time: b.time,
-          date: b.date,
-          active: b.bookingActive,
-          finished: b.bookingFinished
-        };
-      });
-      setBookings(bookings);
-      console.log(bookings)
-    });
-  }, []);
+export function AdminParent(props: IAdminParentProps) {
 
-  useEffect(() => {
-    axios.get("http://localhost:8000/api/v1/guests").then(response => {
-        // console.log(response.data)
-        let guests: IGuest[] = response.data.map((g: IGuest) => {
-            
-            return {
-                name: g.name,
-               _id: g._id,
-                phone: g.phone,
-                email: g.email
-            };
-        });
-        setGuests(guests)
-        console.log(guests);
+  const [dateFromAdmin, setDateFromAdmin] = useState("");
+  const [getBookings, setGetBookings] = useState(false)
+
+
+    function showBookingsByDate() {
+        let filterBookingsByDate = props.bookings.filter((booking) => { 
+                console.log(booking)
+                if(booking.date === dateFromAdmin) {
+                    return booking
+                }
+                return null
+            })
+        props.setGetBookingsByDate(filterBookingsByDate)
+        setGetBookings(true)
+        console.log(props.getBookingsByDate)
+        console.log(dateFromAdmin)
+    }
+
+  function deleteBooking(id: string) {
+    axios.delete("http://localhost:8000/admin/delete/" + id).then(response => {
+        const deleteBooking = props.bookings.filter((b) => {
+            if (b._id !== id) {
+                return b;
+            }
+            return null;
+        })
+        console.log(deleteBooking)
+        props.setBookings(deleteBooking);
     })
-  }, []);
-  console.log(guests);
-
-//   function updateDateValue(e: ChangeEvent<HTMLInputElement>) {
-//       console.log("hejsan")
-//       setDateFromAdmin(dateFromAdmin)
-//   }
+}
 
   return (
     <React.Fragment>
       <Tables
-          bookings={bookings}
-          guests={guests}
-        //   updateDate={updateDateValue}
-        //   adminDate={dateFromAdmin}
-        //   earlyBookings={earlyBookings}
-        //   lateBookings={lateBookings}
+          bookings={props.bookings}
+          getBookingsByDate={props.getBookingsByDate}
+          guests={props.guests}
+          deleteBooking={deleteBooking}
+          showBookingsByDate={showBookingsByDate}
+          dateFromAdmin={dateFromAdmin}
+          setDateFromAdmin={setDateFromAdmin}
+          getBookings={getBookings}
+          setGetBookings={setGetBookings}
         ></Tables>  
     </React.Fragment>
   );
