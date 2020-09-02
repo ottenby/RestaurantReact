@@ -1,208 +1,75 @@
-
-import React from 'react';
-import { AllTables } from '../../../models/Tables';
 import './Tables.css'
+import React, { useState, ChangeEvent } from 'react';
+import { IBooking } from '../AdminParent';
+import axios from 'axios';
+import { IGuest } from '../../guest/GuestParent';
 
-export function Tables() {
+interface IpropsTable{
+    bookings:IBooking[]
+    guests:IGuest[]
+    earlyBookings?:IBooking[]
+    lateBookings?:IBooking[]
+}
 
-    let tables: AllTables[] = [
-        {
-            tableNumber: '1',
-            firstSitting: {
-                id: '23',
-                guestName: 'Love',
-                numOfPeople: '3',
-                guestId: '1',
-                active: true,
-                done: false,
-                booked: true
-            },
-            secondSitting: {
-                id: '13',
-                guestName: 'Ullis',
-                numOfPeople: '4',
-                guestId: '2',
-                active: false,
-                done: false,
-                booked: true     
-            }
-        },
-        {
-            tableNumber: '2',
-            firstSitting: {
-                id: '12',
-                guestName: 'Maria',
-                numOfPeople: '5',
-                guestId: '3',
-                active: true,
-                done: false,
-                booked: true  
-            },
-            secondSitting: {
-                id: '98',
-                guestName: 'Sebastian',
-                numOfPeople: '1',
-                guestId: '4',
-                active: false,
-                done: false,
-                booked: true     
-            }  
-        },
-        {
-            tableNumber: '3',
-            firstSitting: {
-                id: '',
-                guestName: '',
-                numOfPeople: '0',
-                guestId: '',
-                active: false,
-                done: false,
-                booked: false  
-            },
-            secondSitting: {
-                id: '22',
-                guestName: 'Gert',
-                numOfPeople: '2',
-                guestId: '5',
-                active: true,
-                done: false,
-                booked: true    
-            }
-        },
-        {
-            tableNumber: '4',
-            firstSitting: {
-                id: '33',
-                guestName: 'Lundberg',
-                numOfPeople: '6',
-                guestId: '7',
-                active: true,
-                done: false,
-                booked: true  
-            },
-            secondSitting: {
-                id: '',
-                guestName: '',
-                numOfPeople: '0',
-                guestId: '',
-                active: false,
-                done: false,
-                booked: false  
-            }  
-        },
-        {
-            tableNumber: '5',
-            firstSitting: {
-                id: '',
-                guestName: '',
-                numOfPeople: '0',
-                guestId: '',
-                active: false,
-                done: false,
-                booked: false  
-            },
-            secondSitting: {
-                id: '',
-                guestName: '',
-                numOfPeople: '0',
-                guestId: '',
-                active: false,
-                done: false,
-                booked: false  
-            }  
-        },
-        {
-            tableNumber: '6',
-            firstSitting: {
-                id: '',
-                guestName: '',
-                numOfPeople: '0',
-                guestId: '',
-                active: false,
-                done: false,
-                booked: false  
-            },
-            secondSitting: {
-                id: '',
-                guestName: '',
-                numOfPeople: '0',
-                guestId: '',
-                active: false,
-                done: false,
-                booked: false  
-            }  
-        },
-        {
-            tableNumber: '7',
-            firstSitting: {
-                id: '19',
-                guestName: 'Vivi',
-                numOfPeople: '5',
-                guestId: '8',
-                active: true,
-                done: false,
-                booked: false  
-            },
-            secondSitting: {
-                id: '',
-                guestName: '',
-                numOfPeople: '0',
-                guestId: '',
-                active: false,
-                done: false,
-                booked: false  
-            }  
-        },
-        {
-            tableNumber: '8',
-            firstSitting: {
-                id: '',
-                guestName: '',
-                numOfPeople: '',
-                guestId: '',
-                active: false,
-                done: false,
-                booked: false  
-            },
-            secondSitting: {
-                id: '',
-                guestName: '',
-                numOfPeople: '',
-                guestId: '',
-                active: false,
-                done: false,
-                booked: false  
-            }  
-        }
-    ];
+export function Tables(props:IpropsTable) {
 
-    let tableElements = tables.map((table)=> {
-       
-        return(
-            <div className="table" key={table.tableNumber}>
-                <h3> {`table nr. ${table.tableNumber}`} </h3>
-                <div className="first-sitting sitting table-active">
-                <h5>18.00</h5>
-                    <p> {` ${table.firstSitting.guestName} - id: ${table.firstSitting.guestId}`} </p>
-                    <p>{` ${table.firstSitting.numOfPeople}/6 `}</p>
-                </div>
+    const [dateFromAdmin, setDateFromAdmin] = useState("");
+    const [allBookingsFromDate, setAllBookingsFromDate] = useState<IBooking[]>([]);
 
-                <div className="second-sitting sitting table-active">
-                    <h5>20.30</h5>
-                    <p> {` ${table.secondSitting.guestName} - id: ${table.secondSitting.guestId}`} </p>
+    function updateDateValue(e: ChangeEvent<HTMLInputElement>) {
+        setDateFromAdmin(e.target.value)
+    }
 
-                    <p>{` ${table.secondSitting.numOfPeople}/6 `}</p>
-                </div>
-
-            </div>
-            
+    function showBookingsByDate() {
+        console.log(dateFromAdmin)
+        let filterBookingsByDate = props.bookings.filter(
+            booking => booking.date === dateFromAdmin
         )
+        console.log(filterBookingsByDate)
+        setAllBookingsFromDate(filterBookingsByDate)
+    }
+
+    function deleteBooking(id: string) {
+        console.log(id)
+        axios.delete("http://localhost:8000/admin/delete/" + id).then(response => {
+        })
+        window.location.reload(true);
+    }
+    
+    let allBookings = allBookingsFromDate.map((table, i=parseInt(table.customerId))=> {
+
+        return props.guests.map((guest, i=parseInt(guest._id)) => {
+
+            if(table.customerId === guest._id) {
+                return(
+                    <div className="table" key={i}>
+                        <div className="first-sitting sitting table-active">
+                            <h3>Tidig sittning</h3>
+                            <input type="date" value={table.date} />
+                            <input type="text" value={table.time} />
+                            <input type="number" value={table.amountOfGuests} />
+                            <input type="text" value={table.customerId} disabled />
+                            <div><button onClick={() => deleteBooking(table._id)}>Ta bort bokning</button></div>
+                            <input type="text" value={guest.email} />
+                            <input type="text" value={guest.name} />
+                            <input type="number" value={guest.phone} />
+                            <input type="text" value={guest._id} disabled />
+                        </div>
+                    </div>
+                )
+            }
+            else {
+                return (<div>No bookings</div>)
+            }
+        })
     }) 
- 
 
     return(
-        <React.Fragment>
-            <div className="floor"> {tableElements} </div>
-        </React.Fragment>
+        <>
+            <input type="date" value={dateFromAdmin} onChange={updateDateValue}></input>
+            <button onClick={showBookingsByDate}>Visa bokningar</button>
+            <div className="all-bookings"> {allBookings} </div> 
+                
+        </>
     )
 }

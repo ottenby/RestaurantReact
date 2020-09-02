@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { IFormData, IBooking, IGuest } from '../GuestParent';
 
@@ -39,13 +39,6 @@ export function CreateBooking(props: ICreatingBookingProps) {
         phone: "",
         email: "",
     });
-    
-    const [idToNumber, setIdToNumber] = useState(localStorage.getItem("id") || 0);
-
-    useEffect(() => {
-        let idToNumberStringify = JSON.stringify(idToNumber)
-        localStorage.setItem('id', idToNumberStringify);
-      }, [idToNumber]);
 
     function updateSecondFormValues(
         e: React.ChangeEvent<HTMLInputElement>,
@@ -53,8 +46,6 @@ export function CreateBooking(props: ICreatingBookingProps) {
         ) {
         setSecondFormData({ ...secondFormData, [id]: e.target.value});
     }
-
-
 
     let aBooking = new Booking();
     function newBooking(text: string) {
@@ -67,54 +58,17 @@ export function CreateBooking(props: ICreatingBookingProps) {
         aBooking.name = secondFormData.name;
         aBooking.phone = secondFormData.phone;
         aBooking.email = secondFormData.email;
-        aBooking.customerId = idToNumber.toString();
-
-        props.guestList.forEach(guest => {
-            if(guest.customerId !== aBooking.customerId) {
-                updateCustomerId(aBooking.customerId);
-                console.log(guest)
-            }
-            else {
-                console.log("Halloj")
-            }
-        });
-        testFunction(aBooking);
-    }
-    console.log(aBooking);
-
-    function updateCustomerId(id: string) {
-        console.log(id);
-        let idToNumber = parseInt(id)
-        idToNumber++
-        setIdToNumber(idToNumber)
     }
 
-    console.log(idToNumber)
-
-    function testFunction(aBooking: Booking) {
-        axios.post('http://localhost:8000/', aBooking)
+    function postBooking(aBooking: Booking) {
+        axios.post('http://localhost:8000/booking', aBooking)
         .then((response) => {
-            console.log(response.data)
         })
-        // checkForDubbles()
+        console.log(aBooking)
     }
-    // function checkForDubbles() {
-
-    //         let newArray: IGuest[] =props.guestList.filter((guest: IGuest)=> 
-    //             guest.email === aBooking.email
-    //         )
-    //         if(newArray.length >1) {
-    //             props.guestList.pop()
-
-    //         }
-    //         console.log(props.guestList);
-    // }
-
-
     
     return(
     <>
-    <div>Printar ut data från checkiftableavailable {props.formData.date} </div>
     <div className="second-form" id="second-form">
     <input
         type="text"
@@ -139,8 +93,8 @@ export function CreateBooking(props: ICreatingBookingProps) {
         
     {props.earlyBookings && props.earlyBookings.length < 14 &&   <button onClick={()=> {newBooking('18.00')}}>18.00</button>  }
     {props.lateBookings && props.lateBookings.length < 14 &&   <button onClick={()=> {newBooking('20.30')}}>20.30</button>  }
-        
-    
+    {/* {((props.earlyBookings && props.earlyBookings.length > 14) && (props.lateBookings && props.lateBookings.length > 14) && <div>FUllbokat</div>) } */}
+    <div><button onClick={() => postBooking(aBooking)}>Boka</button></div> 
     </div>
     </>
     )

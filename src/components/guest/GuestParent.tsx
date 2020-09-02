@@ -13,6 +13,7 @@ export interface IFormData {
 export interface IBooking {
   amountOfGuests: string;
   customerId: string;
+  _id: string;
   time: string;
   date: string;
   bookingActive: boolean;
@@ -20,7 +21,7 @@ export interface IBooking {
 }
 
 export interface IGuest {
-    customerId: string;
+    _id: string;
     name: string;
     phone: string;
     email: string;
@@ -43,6 +44,7 @@ export function GuestParent() {
         return {
           numberOfGuests: b.amountOfGuests,
           customerId: b.customerId,
+          _id: b._id,
           time: b.time,
           date: b.date,
           active: b.bookingActive,
@@ -60,13 +62,12 @@ export function GuestParent() {
         let guests: IGuest[] = response.data.map((g: IGuest) => {
             return {
                 name: g.name,
-                customerId: g.customerId,
+               _id: g._id,
                 phone: g.phone,
                 email: g.email
             };
         });
         setGuests(guests);
-        console.log(guests);
     })
   }, []);
 
@@ -85,7 +86,6 @@ export function GuestParent() {
     let earlyBookingsData: IBooking[] = [];
     let lateBookingsData: IBooking[] = [];
 
-
     for (let i = 0; i < listOfBookingsSameDay.length; i++) {
       if (listOfBookingsSameDay[i].time === "18.00") {
         earlyBookingsData.push(listOfBookingsSameDay[i]);
@@ -96,10 +96,9 @@ export function GuestParent() {
 
     setEarlyBookings(earlyBookingsData);
     setLateBookings(lateBookingsData);
-
+    console.log(earlyBookingsData)
+    console.log(lateBookingsData)
   }
-
-
 
   return (
     <React.Fragment>
@@ -107,12 +106,14 @@ export function GuestParent() {
         formData={formData}
         checkAvailability={checkAvailability}
         updateFormValues={updateFormValues}
+        earlyBookings={earlyBookings}
+        lateBookings={lateBookings}
       ></CheckIfTableAvailable>
 
       {((earlyBookings && earlyBookings.length < 14) ||
         (lateBookings && lateBookings.length < 14)) && (
         <CreateBooking
-            guestList={guests}
+          guestList={guests}
           formData={formData}
           earlyBookings={earlyBookings}
           lateBookings={lateBookings}

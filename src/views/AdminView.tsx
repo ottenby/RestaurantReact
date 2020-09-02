@@ -1,13 +1,12 @@
 import React from 'react';
-import { ModifyBooking } from '../components/admin/modifyBooking/ModifyBooking';
-
+import { AdminParent } from '../components/admin/AdminParent';
 
 export function AdminView() {
 
 
     return(
         <React.Fragment>
-            <ModifyBooking></ModifyBooking>
+          <AdminParent></AdminParent>
         </React.Fragment>
     )
 }
