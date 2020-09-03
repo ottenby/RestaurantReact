@@ -51,6 +51,11 @@ export function GuestParent(props: IGuestParentProps) {
     setFormData({ ...formData, [id]: e.target.value });
   }
 
+  function sendDataToParent(b: IBooking) {
+    props.updateBookings(b);
+    console.log("Det här är bokningen från guestparent ", b)
+  }
+
   function checkAvailability() {
     let listOfBookingsSameDay = props.bookings.filter(
       booking => booking.date === formData.date
@@ -92,7 +97,13 @@ export function GuestParent(props: IGuestParentProps) {
           formData={formData}
           earlyBookings={earlyBookings}
           lateBookings={lateBookings}
-          updateBookings={props.updateBookings}
+          updateBookings={sendDataToParent}
+
+          //skapa en props som tar en callback function
+
+          //updateState= {props.updateBookings}
+
+
         />
       )}
     </React.Fragment>

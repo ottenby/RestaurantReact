@@ -66,9 +66,9 @@ export function CreateBooking(props: ICreatingBookingProps) {
     function postBooking(aBooking: IBooking) {
         axios.post('http://localhost:8000/booking', aBooking)
         .then((response) => {
-            props.updateBookings(aBooking)
+            props.updateBookings(response.data)
+            console.log("bokning från child", response.data)
         })
-        console.log(props.bookings)
     }
     
     return(
