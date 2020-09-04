@@ -1,35 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import {
-    BrowserRouter as Router,
-    Switch,
-    Route,
-    Link
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import './App.css';
 import axios from 'axios';
 import { IBooking, GuestParent } from './components/guest/GuestParent';
 import { AdminParent, IGuest } from './components/admin/AdminParent';
-// import { ModifyBooking } from './components/admin/modifyBooking/ModifyBooking';
 
 function App() {
 
     const [bookings, setBookings] = useState<IBooking[]>([]);
     const [guests, setGuests] = useState<IGuest[]>([]);
-    const [getBookingsByDate, setGetBookingsByDate] = useState<IBooking[]>([])
 
-    function updateBookings(b: IBooking) {
-        console.log("innan uppdatering ", bookings)
-        let hej = bookings;
-        hej.push(b);
-        setBookings(hej)
-        console.log("Det här är bokningen som skapas: ", b)
-        console.log("efter uppdatering ", bookings)
-    }
-
-    function updateDeletedBookings(updatedBookings: IBooking[]) {
-        console.log("Uppdaterade listan efter borttagen bokning i app ", updatedBookings)
-        let newArray = [...updatedBookings]
-        setBookings(newArray);
+    function addBooking(b: IBooking) {
+        let postedBookings = bookings;
+        postedBookings.push(b);
+        setBookings(postedBookings)
     }
 
     useEffect(() => {
@@ -49,9 +33,9 @@ function App() {
           console.log(bookings)
         });
         
-      }, []);
+    }, []);
 
-      useEffect(() => {
+    useEffect(() => {
         axios.get("http://localhost:8000/api/v1/guests").then(response => {
             let guests: IGuest[] = response.data.map((g: IGuest) => {
                 return {
@@ -63,7 +47,7 @@ function App() {
             });
             setGuests(guests)
         })
-      }, []);
+    }, []);
 
   return (
     <Router>
@@ -86,18 +70,16 @@ function App() {
     <Switch>
       <Route exact path="/admin">
         <AdminParent bookings={bookings} 
-                    setBookings={setBookings}
                     guests={guests} 
-                    getBookingsByDate={getBookingsByDate}
-                    setGetBookingsByDate={setGetBookingsByDate}
-                    deleteBooking={updateDeletedBookings}/>
+                    setBookings={setBookings}
+                    />
       </Route>
       <Route path="/booking">
         <GuestParent bookings={bookings} 
                     setBookings={setBookings}
                     guests={guests}
                     setGuests={setGuests}
-                    updateBookings={updateBookings} />
+                    updateBookings={addBooking} />
       </Route>
     </Switch>
     </div>
