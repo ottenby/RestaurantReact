@@ -18,7 +18,18 @@ function App() {
     const [getBookingsByDate, setGetBookingsByDate] = useState<IBooking[]>([])
 
     function updateBookings(b: IBooking) {
-        setBookings([...bookings, b])
+        console.log("innan uppdatering ", bookings)
+        let hej = bookings;
+        hej.push(b);
+        setBookings(hej)
+        console.log("Det här är bokningen som skapas: ", b)
+        console.log("efter uppdatering ", bookings)
+    }
+
+    function updateDeletedBookings(updatedBookings: IBooking[]) {
+        console.log("Uppdaterade listan efter borttagen bokning i app ", updatedBookings)
+        let newArray = [...updatedBookings]
+        setBookings(newArray);
     }
 
     useEffect(() => {
@@ -35,7 +46,9 @@ function App() {
             };
           });
           setBookings(bookings);
+          console.log(bookings)
         });
+        
       }, []);
 
       useEffect(() => {
@@ -76,7 +89,8 @@ function App() {
                     setBookings={setBookings}
                     guests={guests} 
                     getBookingsByDate={getBookingsByDate}
-                    setGetBookingsByDate={setGetBookingsByDate}/>
+                    setGetBookingsByDate={setGetBookingsByDate}
+                    deleteBooking={updateDeletedBookings}/>
       </Route>
       <Route path="/booking">
         <GuestParent bookings={bookings} 

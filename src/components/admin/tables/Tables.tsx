@@ -1,6 +1,6 @@
 import './Tables.css'
 import React, { ChangeEvent } from 'react';
-import { IBooking } from '../AdminParent';
+import { IBooking, IUpdateData } from '../AdminParent';
 import { IGuest } from '../../guest/GuestParent';
 
 interface IpropsTable{
@@ -15,6 +15,11 @@ interface IpropsTable{
     deleteBooking: (id: string) => void;
     showBookingsByDate: () => void;
     setGetBookings: (e: boolean) => void;
+    updateBookingValues: (
+        e: React.ChangeEvent<HTMLInputElement>,
+        id: keyof IUpdateData
+      ) => void;
+    updateOneBooking: (book: IBooking, guest: IGuest) => void;
 }
 
 export function Tables(props:IpropsTable) {
@@ -32,15 +37,16 @@ export function Tables(props:IpropsTable) {
                 return(
                     <div className="table" key={i}>
                         <div className="first-sitting sitting table-active">
-                            <h3>Tidig sittning</h3>
-                            <p>{table.date}</p>
+                            <h3>Bokning</h3>
+                            <input type="date" name="date" value={table.date} onChange={e => props.updateBookingValues(e, "date")}/>
                             <p>{table.time} </p>
                             <p>{table.amountOfGuests} </p>
                             <p>{table.customerId}</p>
                             <div><button onClick={() => props.deleteBooking(table._id)}>Ta bort bokning</button></div>
-                            <p>{guest.email}</p>
-                            <p>{guest.name}</p>
+                            <input type="text" name="email" value={guest.email} onChange={e => props.updateBookingValues(e, "email")} />
+                            <input type="text" name="name" onChange={e => props.updateBookingValues(e, "name")} />
                             <p>{guest.phone}</p>
+                            <button onClick={() => props.updateOneBooking(table, guest)}>Uppdatera bokning</button>
                         </div>
                     </div>
                 )
