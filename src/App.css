@@ -1,3 +1,8 @@
+body {
+    background-image: url(./pictures/kitchen-515388_1920.jpg);
+    background-size: cover;
+}
+
 .App {
   text-align: center;
 }

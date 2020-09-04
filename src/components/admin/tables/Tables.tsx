@@ -1,35 +1,58 @@
 import './Tables.css'
-import React, { ChangeEvent } from 'react';
-import { IBooking, IUpdateData } from '../AdminParent';
+import React, { ChangeEvent, useState } from 'react';
+import { IBooking } from '../AdminParent';
 import { IGuest } from '../../guest/GuestParent';
+import axios from 'axios';
 
 interface IpropsTable{
     bookings:IBooking[]
     guests:IGuest[]
     earlyBookings?:IBooking[]
     lateBookings?:IBooking[]
-    dateFromAdmin: string
-    getBookings: boolean
-    getBookingsByDate: IBooking[]
-    setDateFromAdmin: (e: string) => void;
-    deleteBooking: (id: string) => void;
-    showBookingsByDate: () => void;
-    setGetBookings: (e: boolean) => void;
     updateBookingValues: (
         e: React.ChangeEvent<HTMLInputElement>,
-        id: keyof IUpdateData
+        id: keyof IBooking
       ) => void;
     updateOneBooking: (book: IBooking, guest: IGuest) => void;
 }
 
-export function Tables(props:IpropsTable) {
+export function Tables(props: IpropsTable) {
+
+    const [dateFromInput, setDateFromInput] = useState("");
+    const [allBookings, setAllBookings] = useState<IBooking[]>([]);
+    const [showFilteredBookings, setshowFilteredBookings] = useState(false);
 
     function updateDateValue(e: ChangeEvent<HTMLInputElement>) {
-        props.setDateFromAdmin(e.target.value)
-        // props.setGetBookings(false)
+        setDateFromInput(e.target.value);
+    }
+
+    function showBookingsByDate() {
+        let filterBookingsByDate = props.bookings.filter((booking) => { 
+                console.log(booking)
+                if(booking.date === dateFromInput) {
+                    return booking
+                }
+                return null
+            })
+            setshowFilteredBookings(true)
+        setAllBookings(filterBookingsByDate)
+    }
+
+    function deleteBooking(id: string) {
+        axios.delete("http://localhost:8000/admin/delete/" + id).then(response => {
+            console.log(props.bookings)
+            const deleteBooking = allBookings.filter((b) => {
+                if (b._id !== id) {
+                    return b;
+                }
+                return null;
+            })
+            console.log("den filtrerade listan ", deleteBooking)
+            setAllBookings(deleteBooking)
+        })
     }
     
-    let allBookings = props.getBookingsByDate.map((table, i=parseInt(table.customerId))=> {
+    let theBookings = allBookings.map((table, i=parseInt(table.customerId))=> {
 
         return props.guests.map((guest, i=parseInt(guest._id)) => {
 
@@ -38,15 +61,17 @@ export function Tables(props:IpropsTable) {
                     <div className="table" key={i}>
                         <div className="first-sitting sitting table-active">
                             <h3>Bokning</h3>
-                            <input type="date" name="date" value={table.date} onChange={e => props.updateBookingValues(e, "date")}/>
-                            <p>{table.time} </p>
-                            <p>{table.amountOfGuests} </p>
-                            <p>{table.customerId}</p>
-                            <div><button onClick={() => props.deleteBooking(table._id)}>Ta bort bokning</button></div>
-                            <input type="text" name="email" value={guest.email} onChange={e => props.updateBookingValues(e, "email")} />
-                            <input type="text" name="name" onChange={e => props.updateBookingValues(e, "name")} />
+                            <input type="date" name="date" value={table.date} onChange={e => props.updateBookingValues(e, "date")} />
+                            Gammal tid:<p>{table.time}</p>
+                            <p>Ny tid: </p><button>18:00</button>
+                            <button>20:30</button>
+                            <p>Antal gäster:</p><input type="number" name="amountOfGuests" min="1" max="6" 
+                            placeholder={table.amountOfGuests} onChange={e => props.updateBookingValues(e, "amountOfGuests")} />
+                            <p>{guest.email}</p>
+                            <p>{guest.name}</p>
                             <p>{guest.phone}</p>
-                            <button onClick={() => props.updateOneBooking(table, guest)}>Uppdatera bokning</button>
+                            <div><button onClick={() => deleteBooking(table._id)}>Ta bort bokning</button></div>
+                            <div><button onClick={() => props.updateOneBooking(table, guest)}>Uppdatera bokning</button></div>   
                         </div>
                     </div>
                 )
@@ -55,12 +80,13 @@ export function Tables(props:IpropsTable) {
         })
     }) 
 
+    console.log(allBookings)
     return(
         <>
-            <input type="date" value={props.dateFromAdmin} onChange={updateDateValue}></input>
-            <button onClick={props.showBookingsByDate}>Visa bokningar</button>
-            {props.getBookings ?
-            <div className="all-bookings"> {allBookings} </div> 
+            <input type="date" value={dateFromInput} onChange={updateDateValue}></input>
+            <button onClick={() => showBookingsByDate()}>Visa bokningar</button>
+            {showFilteredBookings ?
+            <div className="all-bookings"> {theBookings} </div> 
             : null}  
         </>
     )
