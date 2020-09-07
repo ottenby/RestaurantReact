@@ -1,6 +1,6 @@
 import './Tables.css'
 import React, { ChangeEvent, useState } from 'react';
-import { IBooking } from '../AdminParent';
+import { IBooking, IUpdateBooking } from '../AdminParent';
 import { IGuest } from '../../guest/GuestParent';
 import axios from 'axios';
 
@@ -11,9 +11,10 @@ interface IpropsTable{
     lateBookings?:IBooking[]
     updateBookingValues: (
         e: React.ChangeEvent<HTMLInputElement>,
-        id: keyof IBooking
+        id: keyof IUpdateBooking
       ) => void;
-    updateOneBooking: (book: IBooking, guest: IGuest) => void;
+    updateOneBooking: (id: string) => void;
+    changeBooking: (text: string, guestId: string) => void;
 }
 
 export function Tables(props: IpropsTable) {
@@ -28,7 +29,6 @@ export function Tables(props: IpropsTable) {
 
     function showBookingsByDate() {
         let filterBookingsByDate = props.bookings.filter((booking) => { 
-                console.log(booking)
                 if(booking.date === dateFromInput) {
                     return booking
                 }
@@ -61,17 +61,17 @@ export function Tables(props: IpropsTable) {
                     <div className="table" key={i}>
                         <div className="first-sitting sitting table-active">
                             <h3>Bokning</h3>
-                            <input type="date" name="date" value={table.date} onChange={e => props.updateBookingValues(e, "date")} />
+                            <input type="date" name="date" placeholder={table.date} onChange={e => props.updateBookingValues(e, "date")} />
                             Gammal tid:<p>{table.time}</p>
-                            <p>Ny tid: </p><button>18:00</button>
-                            <button>20:30</button>
+                            <p>Ny tid: </p><button onClick={() => {props.changeBooking("18.00", guest._id)}}>18:00</button>
+                            <button onClick={() => {props.changeBooking("20.30", guest._id)}}>20:30</button>
                             <p>Antal gäster:</p><input type="number" name="amountOfGuests" min="1" max="6" 
                             placeholder={table.amountOfGuests} onChange={e => props.updateBookingValues(e, "amountOfGuests")} />
                             <p>{guest.email}</p>
                             <p>{guest.name}</p>
                             <p>{guest.phone}</p>
                             <div><button onClick={() => deleteBooking(table._id)}>Ta bort bokning</button></div>
-                            <div><button onClick={() => props.updateOneBooking(table, guest)}>Uppdatera bokning</button></div>   
+                            <div><button onClick={() => props.updateOneBooking(table._id)}>Uppdatera bokning</button></div>   
                         </div>
                     </div>
                 )
