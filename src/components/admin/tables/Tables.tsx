@@ -61,12 +61,28 @@ export function Tables(props: IpropsTable) {
                     <div className="table" key={i}>
                         <div className="first-sitting sitting table-active">
                             <h3>Bokning</h3>
-                            <input type="date" name="date" placeholder={table.date} onChange={e => props.updateBookingValues(e, "date")} />
-                            Gammal tid:<p>{table.time}</p>
-                            <p>Ny tid: </p><button onClick={() => {props.changeBooking("18.00", guest._id)}}>18:00</button>
+                            <input 
+                            type="date"     
+                            name="date" 
+                            placeholder={table.date} 
+                            onChange={e => props.updateBookingValues(e, "date")} 
+                        />
+                        <input 
+                            type="number" 
+                            name="amountOfGuests" 
+                            min="1" 
+                            max="6" 
+                            placeholder={table.amountOfGuests} 
+                            onChange={e => props.updateBookingValues(e, "amountOfGuests")} 
+                        />
+                            <p>Gammal tid:</p>
+                            <p>{table.time}</p>
+                            <p>Ny tid: </p>
+                            <button onClick={() => {props.changeBooking("18.00", guest._id)}}>18:00</button>
                             <button onClick={() => {props.changeBooking("20.30", guest._id)}}>20:30</button>
-                            <p>Antal gäster:</p><input type="number" name="amountOfGuests" min="1" max="6" 
-                            placeholder={table.amountOfGuests} onChange={e => props.updateBookingValues(e, "amountOfGuests")} />
+                            <p>Antal gäster:</p>
+
+
                             <p>{guest.email}</p>
                             <p>{guest.name}</p>
                             <p>{guest.phone}</p>
