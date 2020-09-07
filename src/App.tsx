@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import './App.css';
 import axios from 'axios';
 import { IBooking, GuestParent } from './components/guest/GuestParent';
@@ -30,13 +30,12 @@ function App() {
             };
           });
           setBookings(bookings);
-          console.log(bookings)
         });
         
     }, []);
 
     useEffect(() => {
-        axios.get("http://localhost:8000/api/v1/guests").then(response => {
+        axios.get("http://localhost:8000/guests").then(response => {
             let guests: IGuest[] = response.data.map((g: IGuest) => {
                 return {
                     name: g.name,
@@ -52,21 +51,6 @@ function App() {
   return (
     <Router>
     <div>
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/admin">Admin</Link>
-        </li>
-        <li>
-          <Link to="/booking">Booking</Link>
-        </li>
-      </ul>
-    </nav>
-
-
     <Switch>
       <Route exact path="/admin">
         <AdminParent bookings={bookings} 
@@ -74,7 +58,7 @@ function App() {
                     setBookings={setBookings}
                     />
       </Route>
-      <Route path="/booking">
+      <Route path="/">
         <GuestParent bookings={bookings} 
                     setBookings={setBookings}
                     guests={guests}
