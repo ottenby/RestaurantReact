@@ -1,6 +1,5 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Tables } from './tables/Tables';
-import axios from 'axios';
 
     export interface IBooking {
         amountOfGuests: string;
@@ -19,72 +18,25 @@ import axios from 'axios';
         email: string;
     }
 
-    export interface IUpdateBooking {
-        date: string;
-        time: string;
-        amountOfGuests: string;
-        _id: string;
-        customerId: string;
-    }
-
-    export class UpdateBooking {
-        date: string = "";
-        time: string = "";
-        amountOfGuests: string = "";
-        _id: string = "";
-        customerId: string = "";
-    }
-
   interface IAdminParentProps {
     bookings: IBooking[];
     setBookings: (booking: IBooking[]) => void;
     guests: IGuest[];
+    newArrayWithDeletedBooking: (b: IBooking[]) => void;
   }
 
 export function AdminParent(props: IAdminParentProps) {
 
-    const [updateBookings, setUpdateBookings] = useState<IUpdateBooking>({
-        amountOfGuests: "",
-        time: "",
-        date: "",
-        _id: "",
-        customerId: "",
-    })
-
-    function updateBookingValues(
-        e: React.ChangeEvent<HTMLInputElement>,
-        id: keyof IUpdateBooking
-        ) {
-        setUpdateBookings({ ...updateBookings, [id]: e.target.value });
-        console.log("den uppdaterade bokningen", updateBookings)
+    function sendUpdatedArrayToParent(b: IBooking[]) {
+        props.newArrayWithDeletedBooking(b)
+        console.log("Data från child till admin parent ", b)
     }
-
-    let updateABooking = new UpdateBooking();
-
-    function changeBooking(text: string, customerId: string) {
-        updateABooking._id = updateBookings._id;
-        updateABooking.amountOfGuests = updateBookings.amountOfGuests;
-        updateABooking.date = updateBookings.date;
-        updateABooking.time = text;
-        updateABooking.customerId = customerId;
-        console.log("book ", updateBookings, text, customerId)
-    }
-
-    function updateOneBooking(id: string) {
-        axios.put("http://localhost:8000/admin/update/" + id, updateABooking).then(response => {
-            setUpdateBookings(updateABooking)
-            console.log("book ", updateBookings)
-        })
-    }
-
     return (
         <React.Fragment>
         <Tables
             bookings={props.bookings}
             guests={props.guests}
-            updateBookingValues={updateBookingValues}
-            updateOneBooking={updateOneBooking}
-            changeBooking={changeBooking}
+            newArrayWithDeletedBooking={sendUpdatedArrayToParent}
             ></Tables>  
         </React.Fragment>
     );

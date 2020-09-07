@@ -25,7 +25,7 @@ export default function CheckIfTableAvailable(
 
   return (
     <>
-    <div id="booking-form">
+    <div className="booking-form" id="booking-form">
       <input
         type="date"
         name="date"

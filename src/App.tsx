@@ -4,6 +4,7 @@ import './App.css';
 import axios from 'axios';
 import { IBooking, GuestParent } from './components/guest/GuestParent';
 import { AdminParent, IGuest } from './components/admin/AdminParent';
+import { ModifyBooking } from './components/admin/modifyBooking/ModifyBooking';
 
 function App() {
 
@@ -14,6 +15,11 @@ function App() {
         let postedBookings = bookings;
         postedBookings.push(b);
         setBookings(postedBookings)
+    }
+
+    function getEditedArray (b: IBooking[]) {
+        setBookings(b)
+        console.log("data från adminparent till app", b)
     }
 
     useEffect(() => {
@@ -50,20 +56,27 @@ function App() {
 
   return (
     <Router>
-    <div>
+    <div className="main-wrapper">
     <Switch>
       <Route exact path="/admin">
         <AdminParent bookings={bookings} 
                     guests={guests} 
                     setBookings={setBookings}
+                    newArrayWithDeletedBooking={getEditedArray}
                     />
       </Route>
-      <Route path="/">
+      <Route exact path="/">
         <GuestParent bookings={bookings} 
                     setBookings={setBookings}
                     guests={guests}
                     setGuests={setGuests}
                     updateBookings={addBooking} />
+      </Route>
+      <Route exact path="/admin/update/:id">
+          <ModifyBooking guests={guests}
+          bookings={bookings}
+          setBookings={setBookings}
+          />
       </Route>
     </Switch>
     </div>
