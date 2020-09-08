@@ -1,4 +1,3 @@
-import './Tables.css'
 import React, { ChangeEvent, useState } from 'react';
 import { IBooking } from '../AdminParent';
 import { IGuest } from '../../guest/GuestParent';

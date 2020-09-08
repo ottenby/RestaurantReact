@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import './App.css';
 import axios from 'axios';
 import { IBooking, GuestParent } from './components/guest/GuestParent';
 import { AdminParent, IGuest } from './components/admin/AdminParent';

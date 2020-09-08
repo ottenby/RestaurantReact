@@ -115,7 +115,7 @@ export function CreateBooking(props: ICreatingBookingProps) {
     
     return(
     <>
-    <div className="second-form" id="second-form">
+    <div className="second-booking-form" id="second-form">
     <input
         type="text"
         name="name"
