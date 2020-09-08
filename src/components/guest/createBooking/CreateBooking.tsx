@@ -140,10 +140,11 @@ export function CreateBooking(props: ICreatingBookingProps) {
         className="email"
         onChange={e => updateSecondFormValues(e, "email")}
         />
-        
+       
+        <div><input name="gdpr" type="checkbox" onClick={() => handleCheckBoxClick()} /> Jag godkänner att mina personuppgifter lagras</div>
     {props.earlyBookings && props.earlyBookings.length < 14 &&   <button onClick={()=> {newBooking('18.00')}}>18.00</button>  }
     {props.lateBookings && props.lateBookings.length < 14 &&   <button onClick={()=> {newBooking('20.30')}}>20.30</button>  }
-    <div><input type="checkbox" onClick={() => handleCheckBoxClick()} /> Jag godkänner att mina personuppgifter lagras</div>
+    
     {isValid && <div><button onClick={() => postBooking(aBooking)}>Boka</button></div> }
     {showSecondMessage && secondMessage()}
     </div>
