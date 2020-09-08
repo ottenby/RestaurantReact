@@ -56,6 +56,22 @@ export class UpdateBooking {
             setUpdateBookings({ ...updateBookings, [id]: e.target.value });
             console.log("den uppdaterade bokningen", updateBookings)
         }
+
+        function updateButtonValues(
+            e: string,
+            id: keyof IUpdateBooking
+        ) {
+            setUpdateBookings({ ...updateBookings, [id]: e});
+            console.log("den uppdaterade bokningen", e);
+        }
+
+
+        function saveUpdatedBooking() {
+            axios.put("http://localhost:8000/admin/update/" + id, {updateBookings})
+            .then(response => {
+                props.setBookings(response.data)
+            })
+        }
         
         useEffect(() => {
             props.bookings.forEach(booking => {
@@ -77,20 +93,7 @@ export class UpdateBooking {
             });
         }, [])
 
-        function updateButtonValues(
-            e: string,
-            id: keyof IUpdateBooking
-        ) {
-            setUpdateBookings({ ...updateBookings, [id]: e});
-            console.log("den uppdaterade bokningen", e);
-        }
-    
-        function saveUpdatedBooking() {
-            axios.put("http://localhost:8000/admin/update/" + id, {updateBookings})
-            .then(response => {
-                props.setBookings(response.data)
-            })
-        }
+
 
             let theBooking = (
                 <div className="booking">
