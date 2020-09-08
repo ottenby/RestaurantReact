@@ -1,6 +1,6 @@
 body {
     background-color: black;
-    opacity: 0.7;
+    opacity: 0.8;
     .main-wrapper {
         background-image: url(../src/pictures/kitchen-515388_1920.jpg);
         background-size: cover;
@@ -8,7 +8,7 @@ body {
         height: 80vh;
         margin: auto;
         margin-top: 50px;
-        /* opacity: 0.9; */
+        overflow-y: auto;
         #booking-form {
             display: flex;
             flex-direction: row;
@@ -44,6 +44,35 @@ body {
         }
         button:active {
             opacity: 1;
+        }
+        .show-sittings {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            padding-top: 50px;
+        }
+        .all-bookings {
+            display: flex;
+            flex-wrap: wrap;
+            flex-direction: row;
+            justify-content: center;
+            // width: 30%;
+            .sittings {
+                width: 25%;
+                padding: 10px;
+                margin: 10px;
+                margin-top: 20px;
+                background-color: black;
+                opacity: 0.7;
+                color: white;
+                .admin-buttons {
+                    cursor: pointer;
+                    &:hover {
+                        background-color: white;
+                        color: black;
+                    }
+                }
+            }
         }
     }
 }

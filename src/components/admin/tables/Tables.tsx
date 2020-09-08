@@ -52,19 +52,19 @@ export function Tables(props: IpropsTable) {
 
             if(table.customerId === guest._id) {
                 return(
-                    <div className="table" key={i}>
-                        <div className="first-sitting sitting table-active">
+                    // <div className="table" key={i}>
+                        <div className="sittings table-active" id="first-sitting" key={i}>
                             <h3>Bokning</h3>
-                            <p>{table.date}</p>
-                            <p>{table.time}</p>
-                            <p>{table.amountOfGuests}</p>
-                            <p>{guest.email}</p>
-                            <p>{guest.name}</p>
-                            <p>{guest.phone}</p>
-                            <div><button onClick={() => deleteBooking(table._id)}>Ta bort bokning</button></div>
-                            <div><Link to={'/admin/update/'+table._id}><button>Uppdatera bokning</button></Link></div> 
+                            <p className="booking-info"><span>Datum:</span> <span>{table.date}</span></p>
+                            <p className="booking-info"><span>Tid:</span> <span>{table.time}</span></p>
+                            <p className="booking-info"><span>Antal gäster:</span> <span>{table.amountOfGuests}</span></p>
+                            <p className="booking-info"><span>Email:</span> <span>{guest.email}</span></p>
+                            <p className="booking-info"><span>Namn:</span> <span>{guest.name}</span></p>
+                            <p className="booking-info"><span>Telefonnummer:</span> <span>{guest.phone}</span></p>
+                            <div><button className="admin-buttons" onClick={() => deleteBooking(table._id)}>Ta bort bokning</button></div>
+                            <div><Link to={'/admin/update/'+table._id}><button className="admin-buttons">Uppdatera bokning</button></Link></div> 
                         </div>
-                    </div>
+                    // </div>
                 )
             }
             return null
@@ -73,8 +73,10 @@ export function Tables(props: IpropsTable) {
 
     return(
         <>
+        <div className="show-sittings">
             <input type="date" value={dateFromInput} onChange={updateDateValue}></input>
             <button onClick={() => showBookingsByDate()}>Visa bokningar</button>
+            </div>
             {showFilteredBookings ?
             <div className="all-bookings"> {theBookings} </div> 
             : null}  
