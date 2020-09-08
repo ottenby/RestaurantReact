@@ -44,19 +44,50 @@ export function GuestParent(props: IGuestParentProps) {
   const [earlyBookings, setEarlyBookings] = useState<IBooking[]>();
   const [lateBookings, setLateBookings] = useState<IBooking[]>();
 
+
   function updateFormValues(
     e: React.ChangeEvent<HTMLInputElement>,
     id: keyof IFormData
   ) {
     setFormData({ ...formData, [id]: e.target.value });
+    // checkValidation();
+    
   }
+  const [showMessage, setShowMessage] = useState(false)
+
+
+  function message() {
+    if(formData.date === '' && formData.numberOfGuests === '') {
+      return(
+        <div>Du måste fylla i datum och antal gäster</div>
+      )
+    }
+    if(formData.date === '') {
+      return (<div>Du måste välja ett datum</div>)
+    }
+    if(formData.numberOfGuests === '') {
+      return (<div>Du måste ange antal gäster</div>)
+    }
+  }
+  
 
   function sendDataToParent(b: IBooking) {
     props.updateBookings(b);
     console.log("Det här är bokningen från guestparent ", b)
   }
 
+  function checkValidation() {
+    console.log("formdata date", formData.date)
+    setShowMessage(true)
+      if(formData.date !== '' && formData.numberOfGuests !== '') {
+        checkAvailability()
+      }
+      return null
+    
+  }
+
   function checkAvailability() {
+
     let listOfBookingsSameDay = props.bookings.filter(
       booking => booking.date === formData.date
     );
@@ -86,6 +117,9 @@ export function GuestParent(props: IGuestParentProps) {
         updateFormValues={updateFormValues}
         earlyBookings={earlyBookings}
         lateBookings={lateBookings}
+        checkValidation={checkValidation}
+        validationMessage = {message}
+        showMessage = {showMessage}
       ></CheckIfTableAvailable>
 
       {((earlyBookings && earlyBookings.length < 14) ||
