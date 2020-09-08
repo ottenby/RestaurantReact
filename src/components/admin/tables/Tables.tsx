@@ -35,14 +35,12 @@ export function Tables(props: IpropsTable) {
 
     function deleteBooking(id: string) {
         axios.delete("http://localhost:8000/admin/delete/" + id).then(response => {
-            console.log(props.bookings)
             const deleteBooking = allBookings.filter((b) => {
                 if (b._id !== id) {
                     return b;
                 }
                 return null;
             })
-            console.log("den filtrerade listan ", deleteBooking)
             setAllBookings(deleteBooking)
             props.newArrayWithDeletedBooking(deleteBooking)
         })
@@ -73,7 +71,6 @@ export function Tables(props: IpropsTable) {
         })
     }) 
 
-    console.log(allBookings)
     return(
         <>
             <input type="date" value={dateFromInput} onChange={updateDateValue}></input>
