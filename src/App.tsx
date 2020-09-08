@@ -16,9 +16,8 @@ function App() {
         setBookings(postedBookings)
     }
 
-    function getEditedArray (b: IBooking[]) {
+    function getEditedArray(b: IBooking[]) {
         setBookings(b)
-        console.log("data från adminparent till app", b)
     }
 
     useEffect(() => {

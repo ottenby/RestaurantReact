@@ -52,6 +52,7 @@ export function CreateBooking(props: ICreatingBookingProps) {
 
     const [showSecondMessage, setSecondShowMessage] = useState(false)
     const [isValid, setIsValid] = useState(false);
+    const [GDPR, setGDPR] = useState(false);
     const [aBooking, setABooking] = useState({
         _id:   '',
         name: '',
@@ -66,7 +67,7 @@ export function CreateBooking(props: ICreatingBookingProps) {
     })
 
     function checkSecondValidation() {
-        if(secondFormData.name !== '' && secondFormData.email !== '' && secondFormData.phone !== '') {
+        if(secondFormData.name !== '' && secondFormData.email !== '' && secondFormData.phone !== '' && GDPR) {
             setIsValid(true)
         }
     }
@@ -85,6 +86,13 @@ export function CreateBooking(props: ICreatingBookingProps) {
       if(secondFormData.email === '') {
         return (<div>Du måste fylla i din mailadress</div>)
       }
+      if(!GDPR) {
+          return (<div>Du måste godkänna användningen av dina personuppifter</div>)
+      }
+    }
+
+    function handleCheckBoxClick() {
+        setGDPR(!GDPR)
     }
 
     // let aBooking = new Booking();
@@ -98,18 +106,14 @@ export function CreateBooking(props: ICreatingBookingProps) {
         aBooking.name = secondFormData.name;
         aBooking.phone = secondFormData.phone;
         aBooking.email = secondFormData.email;
-        console.log(aBooking)
         setABooking(aBooking)
         checkSecondValidation();
-        console.log("datum", props.formData.date)
     }
 
     function postBooking(aBooking: IBooking) {
-        console.log(aBooking);
         axios.post('http://localhost:8000/', aBooking)
         .then((response) => {
             props.updateBookings(response.data)
-            console.log("bokning från child", response.data)
         })
     }
     
@@ -139,6 +143,7 @@ export function CreateBooking(props: ICreatingBookingProps) {
         
     {props.earlyBookings && props.earlyBookings.length < 14 &&   <button onClick={()=> {newBooking('18.00')}}>18.00</button>  }
     {props.lateBookings && props.lateBookings.length < 14 &&   <button onClick={()=> {newBooking('20.30')}}>20.30</button>  }
+    <div><input type="checkbox" onClick={() => handleCheckBoxClick()} /> Jag godkänner att mina personuppgifter lagras</div>
     {isValid && <div><button onClick={() => postBooking(aBooking)}>Boka</button></div> }
     {showSecondMessage && secondMessage()}
     </div>

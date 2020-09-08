@@ -54,12 +54,10 @@ export class UpdateBooking {
             id: keyof IUpdateBooking
             ) {
             setUpdateBookings({ ...updateBookings, [id]: e.target.value });
-            console.log("den uppdaterade bokningen", updateBookings)
         }
         
         useEffect(() => {
             props.bookings.forEach(booking => {
-                console.log("booking ", booking);
                 if(booking._id === id) {
                     props.guests.forEach(guest => {
                         let parentBooking: IUpdateBooking = {
@@ -82,7 +80,6 @@ export class UpdateBooking {
             id: keyof IUpdateBooking
         ) {
             setUpdateBookings({ ...updateBookings, [id]: e});
-            console.log("den uppdaterade bokningen", e);
         }
     
         function saveUpdatedBooking() {

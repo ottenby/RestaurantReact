@@ -29,7 +29,6 @@ export function AdminParent(props: IAdminParentProps) {
 
     function sendUpdatedArrayToParent(b: IBooking[]) {
         props.newArrayWithDeletedBooking(b)
-        console.log("Data från child till admin parent ", b)
     }
     return (
         <React.Fragment>

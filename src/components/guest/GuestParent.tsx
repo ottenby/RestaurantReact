@@ -73,11 +73,9 @@ export function GuestParent(props: IGuestParentProps) {
 
   function sendDataToParent(b: IBooking) {
     props.updateBookings(b);
-    console.log("Det här är bokningen från guestparent ", b)
   }
 
   function checkValidation() {
-    console.log("formdata date", formData.date)
     setShowMessage(true)
       if(formData.date !== '' && formData.numberOfGuests !== '') {
         checkAvailability()
@@ -105,8 +103,6 @@ export function GuestParent(props: IGuestParentProps) {
 
     setEarlyBookings(earlyBookingsData);
     setLateBookings(lateBookingsData);
-    console.log(earlyBookingsData)
-    console.log(lateBookingsData)
   }
 
   return (
