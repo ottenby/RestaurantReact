@@ -7,22 +7,29 @@ export interface ICheckIfTableAvailableProps {
   earlyBookings?: IBooking[];
   lateBookings?: IBooking[];
   checkAvailability: () => void;
+  checkValidation: () => void;
   updateFormValues: (
     e: React.ChangeEvent<HTMLInputElement>,
     id: keyof IFormData
   ) => void;
+  validationMessage: () => void;
+  showMessage: boolean;
 }
 
 export default function CheckIfTableAvailable(
   props: ICheckIfTableAvailableProps
 ) {
 
+
     function showFullyBookedMessage() {
         if((props.earlyBookings && props.earlyBookings.length > 14) && (props.lateBookings && props.lateBookings.length > 14)) {
             return <div>Fullbokat</div>
         }
     }
+    
 
+
+ 
   return (
     <>
     <div className="booking-form" id="booking-form">
@@ -40,11 +47,15 @@ export default function CheckIfTableAvailable(
         className="num-of-guests"
         onChange={e => props.updateFormValues(e, "numberOfGuests")}
       />
-      <button onClick={() => props.checkAvailability()}>
+      <button onClick={() => props.checkValidation()}>
         Check for available tables
       </button>
     </div>
-    <div>{showFullyBookedMessage()}</div>
+    <div>
+      {showFullyBookedMessage()}
+      {props.showMessage && props.validationMessage()}
+    </div>
+    
     </>
   );
 }

@@ -48,34 +48,10 @@ export class UpdateBooking {
         })
         
         let {id} = useParams();
-    
-        function updateBookingValues(
-            e: React.ChangeEvent<HTMLInputElement>,
-            id: keyof IUpdateBooking
-            ) {
-            setUpdateBookings({ ...updateBookings, [id]: e.target.value });
-            console.log("den uppdaterade bokningen", updateBookings)
-        }
-
-        function updateButtonValues(
-            e: string,
-            id: keyof IUpdateBooking
-        ) {
-            setUpdateBookings({ ...updateBookings, [id]: e});
-            console.log("den uppdaterade bokningen", e);
-        }
-
-
-        function saveUpdatedBooking() {
-            axios.put("http://localhost:8000/admin/update/" + id, {updateBookings})
-            .then(response => {
-                props.setBookings(response.data)
-            })
-        }
+       
         
         useEffect(() => {
             props.bookings.forEach(booking => {
-                console.log("booking ", booking);
                 if(booking._id === id) {
                     props.guests.forEach(guest => {
                         let parentBooking: IUpdateBooking = {
@@ -93,7 +69,26 @@ export class UpdateBooking {
             });
         }, [])
 
+        function updateBookingValues(
+            e: React.ChangeEvent<HTMLInputElement>,
+            id: keyof IUpdateBooking
+            ) {
+            setUpdateBookings({ ...updateBookings, [id]: e.target.value });
+        }
 
+        function updateButtonValues(
+            e: string,
+            id: keyof IUpdateBooking
+        ) {
+            setUpdateBookings({ ...updateBookings, [id]: e});
+        }
+    
+        function saveUpdatedBooking() {
+            axios.put("http://localhost:8000/admin/update/" + id, {updateBookings})
+            .then(response => {
+                props.setBookings(response.data)
+            })
+        }
 
             let theBooking = (
                 <div className="booking">
