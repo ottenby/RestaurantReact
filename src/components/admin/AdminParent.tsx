@@ -22,13 +22,13 @@ import { Tables } from './tables/Tables';
     bookings: IBooking[];
     setBookings: (booking: IBooking[]) => void;
     guests: IGuest[];
-    newArrayWithDeletedBooking: (b: IBooking[]) => void;
+    newArrayWithDeletedBooking: (id: string) => void;
   }
 
 export function AdminParent(props: IAdminParentProps) {
 
-    function sendUpdatedArrayToParent(b: IBooking[]) {
-        props.newArrayWithDeletedBooking(b)
+    function sendUpdatedArrayToParent(id: string) {
+        props.newArrayWithDeletedBooking(id)
     }
     return (
         <React.Fragment>

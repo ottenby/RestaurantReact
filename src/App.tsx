@@ -16,8 +16,14 @@ function App() {
         setBookings(postedBookings)
     }
 
-    function getEditedArray(b: IBooking[]) {
-        setBookings(b)
+    function getEditedArray(id: string) {
+        const deleteBooking = bookings.filter((b) => {
+            if (b._id !== id) {
+                return b;
+            }
+            return null;
+        })
+        setBookings(deleteBooking)
     }
 
     useEffect(() => {

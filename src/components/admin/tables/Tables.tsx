@@ -9,7 +9,7 @@ interface IpropsTable{
     guests:IGuest[]
     earlyBookings?:IBooking[]
     lateBookings?:IBooking[]
-    newArrayWithDeletedBooking: (b: IBooking[]) => void;
+    newArrayWithDeletedBooking: (id: string) => void;
 }
 
 export function Tables(props: IpropsTable) {
@@ -30,6 +30,7 @@ export function Tables(props: IpropsTable) {
                 return null
             })
             setshowFilteredBookings(true)
+            console.log(filterBookingsByDate);
         setAllBookings(filterBookingsByDate)
     }
 
@@ -42,10 +43,10 @@ export function Tables(props: IpropsTable) {
                 return null;
             })
             setAllBookings(deleteBooking)
-            props.newArrayWithDeletedBooking(deleteBooking)
+            props.newArrayWithDeletedBooking(id)
         })
     }
-    
+    console.log("Det här är alla bokningar från samma datum ", allBookings);
     let theBookings = allBookings.map((table, i=parseInt(table.customerId))=> {
 
         return props.guests.map((guest, i=parseInt(guest._id)) => {

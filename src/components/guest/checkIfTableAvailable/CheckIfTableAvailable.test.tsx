@@ -6,8 +6,16 @@ import CheckIfTableAvailable  from "./CheckIfTableAvailable";
 
 
 test("renders CreateBooking works text", () => {
-    
-    const { getByText } = render(<CheckIfTableAvailable/>)
+    let testFunction = jest.fn();
+
+    let formDataObject = {
+        date: "2020-09-12",
+        numberOfGuests: "5",
+        phone: "0728883399",
+        email: "hej@hej.se",
+    }
+
+    const { getByText } = render(<CheckIfTableAvailable formData={formDataObject} checkValidation={testFunction}/>)
        
  
     const h1Element = getByText(/Välkommen till purple-nurple/i);

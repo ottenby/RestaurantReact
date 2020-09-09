@@ -31,8 +31,8 @@ export default function CheckIfTableAvailable(
 
  
   return (
-    <h1>Välkommen till purple-nurple</h1>
-    <>
+      <>
+      <h1>Välkommen till purple-nurple</h1>
     <div className="booking-form" id="booking-form">
       <input
         type="date"
