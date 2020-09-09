@@ -15,7 +15,19 @@ test("renders CreateBooking works text", () => {
         email: "hej@hej.se",
     }
 
-    const { getByText } = render(<CheckIfTableAvailable formData={formDataObject} checkValidation={testFunction}/>)
+   let earlyBookingObject={
+   amountOfGuests: "6",
+    customerId:"1",
+    _id:"2",
+    time: "18.30",
+    date: "2020-09-22",
+    bookingActive: true,
+    bookingFinished: false,
+  }
+    
+
+    const { getByText } = render(<CheckIfTableAvailable formData={formDataObject} checkValidation={testFunction}
+        earlyBookings={earlyBookingObject}/>)
        
  
     const h1Element = getByText(/Välkommen till purple-nurple/i);
