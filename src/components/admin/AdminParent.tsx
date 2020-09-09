@@ -7,8 +7,6 @@ import { Tables } from './tables/Tables';
         _id: string;
         time: string;
         date: string;
-        bookingActive: boolean;
-        bookingFinished: boolean;
     }
     
     export interface IGuest {

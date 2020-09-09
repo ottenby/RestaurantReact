@@ -3,6 +3,7 @@ import { IBooking } from '../AdminParent';
 import { IGuest } from '../../guest/GuestParent';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import Calendar from 'react-calendar';
 
 interface IpropsTable{
     bookings:IBooking[]
@@ -18,9 +19,14 @@ export function Tables(props: IpropsTable) {
     const [allBookings, setAllBookings] = useState<IBooking[]>([]);
     const [showFilteredBookings, setshowFilteredBookings] = useState(false);
 
-    function updateDateValue(e: ChangeEvent<HTMLInputElement>) {
-        setDateFromInput(e.target.value);
-    }
+    function updateDateValue(e: Date) {
+        let dateString =
+        e.toLocaleDateString(undefined, {year: "numeric"}) + "-" +
+        e.toLocaleDateString(undefined, { month: '2-digit' }) + "-" +
+        e.toLocaleDateString(undefined, { day: '2-digit' });
+        console.log(dateString);
+        setDateFromInput(dateString);
+    };
 
     function showBookingsByDate() {
         let filterBookingsByDate = props.bookings.filter((booking) => { 
@@ -28,11 +34,10 @@ export function Tables(props: IpropsTable) {
                     return booking
                 }
                 return null
-            })
-            setshowFilteredBookings(true)
-            console.log(filterBookingsByDate);
-        setAllBookings(filterBookingsByDate)
-    }
+            });
+            setshowFilteredBookings(true);
+        setAllBookings(filterBookingsByDate);
+    };
 
     function deleteBooking(id: string) {
         axios.delete("http://localhost:8000/admin/delete/" + id).then(response => {
@@ -42,11 +47,11 @@ export function Tables(props: IpropsTable) {
                 }
                 return null;
             })
-            setAllBookings(deleteBooking)
-            props.newArrayWithDeletedBooking(id)
+            setAllBookings(deleteBooking);
+            props.newArrayWithDeletedBooking(id);
         })
-    }
-    console.log("Det här är alla bokningar från samma datum ", allBookings);
+    };
+
     let theBookings = allBookings.map((table, i=parseInt(table.customerId))=> {
 
         return props.guests.map((guest, i=parseInt(guest._id)) => {
@@ -73,7 +78,8 @@ export function Tables(props: IpropsTable) {
     return(
         <>
         <div className="show-sittings">
-            <input type="date" value={dateFromInput} onChange={updateDateValue}></input>
+        <Calendar onClickDay={updateDateValue} />
+            {/* <input type="date" value={dateFromInput} onChange={updateDateValue}></input> */}
             <button className="show-bookings-button" onClick={() => showBookingsByDate()}>Visa bokningar</button>
             </div>
             {showFilteredBookings ?

@@ -15,8 +15,6 @@ export interface IBooking {
   _id: string;
   time: string;
   date: string;
-  bookingActive: boolean;
-  bookingFinished: boolean;
 }
 
 export interface IGuest {
@@ -50,12 +48,12 @@ export function GuestParent(props: IGuestParentProps) {
     id: keyof IFormData
   ) {
     setFormData({ ...formData, [id]: e.target.value, date});
-  }
+  };
 
   function updateDateFromChild(date: string) {
     setDate(date)
-  }
-  const [showMessage, setShowMessage] = useState(false)
+  };
+  const [showMessage, setShowMessage] = useState(false);
 
 
   function message() {
@@ -70,12 +68,12 @@ export function GuestParent(props: IGuestParentProps) {
     if(formData.numberOfGuests === '') {
       return (<div>Du måste ange antal gäster</div>)
     }
-  }
+  };
   
 
   function sendDataToParent(b: IBooking) {
     props.updateBookings(b);
-  }
+  };
 
   function checkValidation() {
     setShowMessage(true)
@@ -83,8 +81,7 @@ export function GuestParent(props: IGuestParentProps) {
         checkAvailability()
       }
       return null
-    
-  }
+  };
 
   function checkAvailability() {
     console.log("formdata: ", formData)
@@ -101,11 +98,11 @@ export function GuestParent(props: IGuestParentProps) {
       } else {
         lateBookingsData.push(listOfBookingsSameDay[i]);
       }
-    }
+    };
 
     setEarlyBookings(earlyBookingsData);
     setLateBookings(lateBookingsData);
-  }
+  };
 
   return (
     <React.Fragment>
@@ -131,12 +128,6 @@ export function GuestParent(props: IGuestParentProps) {
           earlyBookings={earlyBookings}
           lateBookings={lateBookings}
           updateBookings={sendDataToParent}
-
-          //skapa en props som tar en callback function
-
-          //updateState= {props.updateBookings}
-
-
         />
       )}
     </React.Fragment>

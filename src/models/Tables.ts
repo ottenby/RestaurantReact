@@ -8,18 +8,12 @@ export class AllTables {
         guestName: '', 
         numOfPeople: '', 
         guestId: '', 
-        active: false, 
-        done: false, 
-        booked: false
     };
     secondSitting: Sitting = {
         id: '', 
         guestName: '', 
         numOfPeople: '', 
-        guestId: '', 
-        active: false, 
-        done: false, 
-        booked: false
+        guestId: '',
     };
     
 }

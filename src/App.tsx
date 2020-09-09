@@ -13,8 +13,8 @@ function App() {
     function addBooking(b: IBooking) {
         let postedBookings = bookings;
         postedBookings.push(b);
-        setBookings(postedBookings)
-    }
+        setBookings(postedBookings);
+    };
 
     function getEditedArray(id: string) {
         const deleteBooking = bookings.filter((b) => {
@@ -22,9 +22,9 @@ function App() {
                 return b;
             }
             return null;
-        })
-        setBookings(deleteBooking)
-    }
+        });
+        setBookings(deleteBooking);
+    };
 
     useEffect(() => {
         axios.get("http://localhost:8000/").then(response => {
@@ -34,9 +34,7 @@ function App() {
               customerId: b.customerId,
               _id: b._id,
               time: b.time,
-              date: b.date,
-              active: b.bookingActive,
-              finished: b.bookingFinished
+              date: b.date
             };
           });
           setBookings(bookings);
@@ -54,7 +52,7 @@ function App() {
                     email: g.email
                 };
             });
-            setGuests(guests)
+            setGuests(guests);
         })
     }, []);
 

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React from "react";
 import Calendar from "react-calendar";
 import 'react-calendar/dist/Calendar.css';
 import { IFormData } from "../GuestParent";
@@ -28,25 +28,19 @@ export default function CheckIfTableAvailable(props: ICheckIfTableAvailableProps
         e.toLocaleDateString(undefined, { day: '2-digit' });
         console.log(dateString);
         props.updateDate(dateString);
-    }
+    };
 
     function showFullyBookedMessage() {
         if((props.earlyBookings && props.earlyBookings.length > 14) && (props.lateBookings && props.lateBookings.length > 14)) {
             return <div>Fullbokat</div>
         }
-    }
+    };
 
   return (
       <>
-      <h1>Välkommen till purple-nurple</h1>
+      <h2>Välkommen till Purple Nurple</h2>
     <div className="booking-form" id="booking-form">
     <div><Calendar onClickDay={updateDate} /></div>
-      {/* <input
-        type="date"
-        name="date"
-        placeholder="Date"
-        onChange={e => props.updateFormValues(e, "date")}
-      /> */}
       <div className="input-and-button-wrapper">
         <input
             type="number"
@@ -57,7 +51,7 @@ export default function CheckIfTableAvailable(props: ICheckIfTableAvailableProps
             onChange={e => props.updateFormValues(e, "numberOfGuests")}
         />
         <button className="check-availability-button" onClick={() => props.checkValidation()}>
-            Check for available tables
+            Kolla efter lediga bord
         </button>
       </div>
     </div>

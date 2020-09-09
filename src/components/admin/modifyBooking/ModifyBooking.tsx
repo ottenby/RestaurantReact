@@ -16,8 +16,6 @@ export interface IUpdateBooking {
     amountOfGuests: string;
     _id: string;
     customerId: string;
-    bookingActive: boolean;
-    bookingFinished: boolean;
 }
 
 export class UpdateBooking {
@@ -30,15 +28,14 @@ export class UpdateBooking {
     
     export function ModifyBooking(props: IModifyBookingProps) {
 
+        const [showUpdateMessage, setShowUpdateMessage] = useState(false);
         const [updateBookings, setUpdateBookings] = useState<IUpdateBooking>({
             amountOfGuests: "",
             time: "",
             date: "",
             _id: "",
-            customerId: "",
-            bookingActive: true,
-            bookingFinished: false,
-        })
+            customerId: ""
+        });
         
         let {id} = useParams();
        
@@ -52,54 +49,48 @@ export class UpdateBooking {
                             time: booking.time,
                             amountOfGuests: booking.amountOfGuests,
                             _id: booking._id,
-                            customerId: guest._id,
-                            bookingActive: booking.bookingActive,
-                            bookingFinished: booking.bookingFinished
+                            customerId: guest._id
                         }
-                        setUpdateBookings(parentBooking)
+                        setUpdateBookings(parentBooking);
                     });
-                }
+                };
             });
-        }, [])
+        }, []);
 
         function updateBookingValues(
             e: React.ChangeEvent<HTMLInputElement>,
             id: keyof IUpdateBooking
             ) {
             setUpdateBookings({ ...updateBookings, [id]: e.target.value });
-        }
+        };
 
         function updateButtonValues(
             e: string,
             id: keyof IUpdateBooking
         ) {
             setUpdateBookings({ ...updateBookings, [id]: e});
-        }
+        };
     
         function saveUpdatedBooking() {
             axios.put("http://localhost:8000/admin/update/" + id, {updateBookings})
             .then(response => {
                 props.setBookings(response.data)
-            })
-        }
+            });
+            setShowUpdateMessage(true)
+        };
 
-            let theBooking = (
-                <div className="booking">
-                <div className="first-sitting sitting booking-active">
-                    <h3>Bokning</h3>
-                    <input type="date" name="date" value={updateBookings.date} onChange={e => updateBookingValues(e, "date")} />
-                    Gammal tid:<p>{updateBookings.time}</p>
-                    <p>Ny tid: </p><button onClick={e => updateButtonValues("18.00", "time")}>18:00</button>
-                    <button onClick={e => updateButtonValues("20.30", "time")}>20:30</button>
-                    <p>Antal gäster:</p><input type="number" name="amountOfGuests" min="1" max="6" 
-                    placeholder={updateBookings.amountOfGuests} onChange={e => updateBookingValues(e, "amountOfGuests")} />
-                    {/* <p>{guest.email}</p>
-                    <p>{guest.name}</p>
-                    <p>{guest.phone}</p> */}
-                    <div><button onClick={() => saveUpdatedBooking()}>Spara ny bokning</button></div>   
-                </div>
+        let theBooking = (
+            <div className="one-sitting">
+                <h3>Updatera bokning</h3>
+                <input type="date" name="date" value={updateBookings.date} onChange={e => updateBookingValues(e, "date")} />
+                <p>Ny tid: </p><button className="time-buttons" onClick={e => updateButtonValues("18.00", "time")}>18:00</button>
+                <button className="time-buttons" onClick={e => updateButtonValues("20.30", "time")}>20:30</button>
+                <p>Antal gäster:</p><input type="number" name="amountOfGuests" min="1" max="6" 
+                placeholder={updateBookings.amountOfGuests} onChange={e => updateBookingValues(e, "amountOfGuests")} />
+                <div><button className="save-booking-btn" onClick={() => saveUpdatedBooking()}>Uppdatera bokning</button></div>   
+                {showUpdateMessage && (<div>Bokningen är uppdaterad</div>)}
             </div>
-            )
+        )
                 
         return(
             <React.Fragment>

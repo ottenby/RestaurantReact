@@ -4,29 +4,62 @@ body {
     background-color: rgba(0, 0, 0, 0.9);
     font-family: 'Work Sans', sans-serif;
     .main-wrapper {
+        position: relative;
         background-image: url(../src/pictures/kitchen-515388_1920.jpg);
         background-size: cover;
-        width: 60%;
-        height: 80vh;
+        width: 70vw;
+        height: 85vh;
         margin: auto;
-        margin-top: 50px;
+        margin-top: 70px;
         overflow-y: auto;
+        text-align: center;
         #booking-form {
-            padding-top: 50px;
             .input-and-button-wrapper {
                 margin-top: 15px;
             }
         }
-        h1 {
+        h2 {
             font-weight:normal;
+            margin: 10px;
         }
         .second-booking-form {
-            display: flex;
-            flex-direction: row;
             justify-content: center;
-            padding-top: 50px;
+            padding-top: 10px;
+            .customer-info-input {
+                margin-top: 5px;
+                padding: 5px;
+                width: 32%;
+            }
+            .time-buttons {
+                width: 16%;
+                padding: 10px;
+                border: none;
+                background-color: rgba(0, 0, 0, 0.89);
+                color:white;
+                outline: none;
+                margin: 5px;
+                opacity: 0.9;
+                cursor: pointer;
+            }
+            .book-button {
+                width: 33%;
+                margin-top: 5px;
+                padding: 10px;
+                border: none;
+                background-color: rgba(0, 0, 0, 0.89);
+                color:white;
+                outline: none;
+                opacity: 0.9;
+                font-family: 'Work Sans', sans-serif;
+                cursor: pointer;
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.589);
+                    color: black;
+                }
+            }
         }
         input {
+            padding: 5px;
             border: none;
             height: 25px;
             opacity: 0.8;
@@ -41,12 +74,16 @@ body {
             color: white;
         }
         .check-availability-button {
+            width: 18%;
+            padding: 10px;
             border: none;
-            height: 27px;
             background-color: rgba(0, 0, 0, 0.89);
             color:white;
             outline: none;
             margin-left: 5px;
+            opacity: 0.9;
+            cursor: pointer;
+            font-family: 'Work Sans', sans-serif;
         }
         div {
             text-align: -webkit-center;
@@ -65,18 +102,22 @@ body {
                         background-color: rgba(255, 255, 255, 0.589);
                     }
                 }
+                .react-calendar__tile--active {
+                    background-color: rgba(255, 255, 255, 0.767);
+                    font-weight: bold;
+                }
             }
         }
         button:active {
             opacity: 1;
         }
         .show-sittings {
-            display: flex;
-            flex-direction: row;
             justify-content: center;
             padding-top: 50px;
             .show-bookings-button {
-                margin-left: 5px;
+                width: 32.5%;
+                padding: 10px;
+                margin: 10px;
                 border: none;
                 opacity: 0.8;
                 background-color: black;
@@ -84,6 +125,8 @@ body {
                 font-family: 'Work Sans', sans-serif;
                 &:hover {
                     background-color: rgba(255, 255, 255, 0.589);
+                    color: black;
+                    cursor: pointer;
                 }
             }
         }
@@ -98,13 +141,107 @@ body {
                 margin: 10px;
                 margin-top: 20px;
                 background-color: black;
-                opacity: 0.7;
+                opacity: 0.8;
                 color: white;
                 .admin-buttons {
+                    width: 70%;
+                    padding: 10px;
+                    margin: 10px;
+                    border: none;
+                    background-color: rgba(255, 255, 255, 0.589);
+                    color: black;
+                    font-family: 'Work Sans', sans-serif;
+                    &:hover {
+                        background-color: black;
+                        color: white;
+                        cursor: pointer;
+                    }
+                }
+            }
+        }
+        .one-sitting {
+            width: 25%;
+            padding: 10px;
+            margin: 10px;
+            margin-top: 20px;
+            background-color: black;
+            opacity: 0.8;
+            color: white;
+            .time-buttons {
+                width: 37%;
+                padding: 10px;
+                margin: 5px;
+                border: none;
+                background-color: rgba(255, 255, 255, 0.589);
+                color: black;
+                font-family: 'Work Sans', sans-serif;
+                &:hover {
+                    background-color: black;
+                    color: white;
                     cursor: pointer;
+                }
+            }
+            .save-booking-btn {
+                width: 77.5%;
+                padding: 15px;
+                margin: 5px;
+                border: none;
+                background-color: rgba(255, 255, 255, 0.589);
+                color: black;
+                font-family: 'Work Sans', sans-serif;
+                &:hover {
+                    background-color: black;
+                    color: white;
+                    cursor: pointer;
+                }
+            }
+            input {
+                width: 70%;
+                padding: 10px;
+                margin: 10px;
+                border: none;
+                background-color: rgba(255, 255, 255, 0.719);
+                color: black;
+                font-family: 'Work Sans', sans-serif;
+            }
+        }
+        .popup-background {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.603);
+            // opacity: 0.8;
+            height: 100px;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            .popup-container {
+                position: absolute;
+                background-color: white;
+                margin-left: auto;
+                margin-right: auto;
+                margin-top: 100px;
+                left: 0;
+                right: 0;
+                text-align: center;
+                width: 50%;
+                height: 50%;
+                color: white;
+                box-shadow: 10px 10px 1px 10px;
+                .confirmed-booking-info {
+                    color: black;
+                }
+                .close-popup-btn {
+                    width: 50%;
+                    padding: 15px;
+                    margin: 5px;
+                    border: none;
+                    background-color: black;
+                    opacity: 0.8;
+                    color: white;
+                    font-family: 'Work Sans', sans-serif;
                     &:hover {
                         background-color: white;
                         color: black;
+                        cursor: pointer;
                     }
                 }
             }

@@ -43,9 +43,9 @@ test("renders CreateBooking works text", () => {
     const { getByText } = render(<CheckIfTableAvailable updateDate={testUpdateDate} showMessage={testshowMessage} formData={formDataObject} checkValidation={testFunction}  validationMessage={testValidationMessage} checkAvailability={testFunctionCheckAvailability} updateFormValues={testUpdateFormValues} earlyBookings={earlyBookingObject}
         lateBookings={lateBookingObject}/>)
     
-    const h1Element = getByText(/Välkommen till purple-nurple/i);
+    const h3Element = getByText(/Välkommen till Purple Nurple/i);
 
-    expect(h1Element).toBeInTheDocument();
+    expect(h3Element).toBeInTheDocument();
     
 });
 
