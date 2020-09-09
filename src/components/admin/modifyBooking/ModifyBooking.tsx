@@ -5,13 +5,6 @@ import { IGuest } from "../../guest/GuestParent";
 import axios from "axios";
 
 interface IModifyBookingProps {
-    // updateBookingValues: (
-    //     e: React.ChangeEvent<HTMLInputElement>,
-    //     id: keyof IUpdateBooking
-    //   ) => void;
-    // updateOneBooking: (id: string) => void;
-    // changeBooking: (text: string, guestId: string) => void;
-    // getOneBooking: (id: string) => void;
     guests: IGuest[];
     bookings: IBooking[];
     setBookings: (booking: IBooking[]) => void;
@@ -110,7 +103,7 @@ export class UpdateBooking {
                 
         return(
             <React.Fragment>
-            <div>{theBooking}</div>   
+            <div>{theBooking}</div> 
             </React.Fragment>
     
         )

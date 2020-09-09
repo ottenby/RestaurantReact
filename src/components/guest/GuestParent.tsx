@@ -43,15 +43,17 @@ export function GuestParent(props: IGuestParentProps) {
 
   const [earlyBookings, setEarlyBookings] = useState<IBooking[]>();
   const [lateBookings, setLateBookings] = useState<IBooking[]>();
-
+  const [date, setDate] = useState("");
 
   function updateFormValues(
     e: React.ChangeEvent<HTMLInputElement>,
     id: keyof IFormData
   ) {
-    setFormData({ ...formData, [id]: e.target.value });
-    // checkValidation();
-    
+    setFormData({ ...formData, [id]: e.target.value, date});
+  }
+
+  function updateDateFromChild(date: string) {
+    setDate(date)
   }
   const [showMessage, setShowMessage] = useState(false)
 
@@ -85,7 +87,7 @@ export function GuestParent(props: IGuestParentProps) {
   }
 
   function checkAvailability() {
-
+    console.log("formdata: ", formData)
     let listOfBookingsSameDay = props.bookings.filter(
       booking => booking.date === formData.date
     );
@@ -116,6 +118,7 @@ export function GuestParent(props: IGuestParentProps) {
         checkValidation={checkValidation}
         validationMessage = {message}
         showMessage = {showMessage}
+        updateDate={updateDateFromChild}
       ></CheckIfTableAvailable>
 
       {((earlyBookings && earlyBookings.length < 14) ||

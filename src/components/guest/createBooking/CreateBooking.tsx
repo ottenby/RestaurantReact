@@ -2,27 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { IFormData, IBooking, IGuest } from '../GuestParent';
 
-// export class Booking {
-//     _id: string = '';
-//     name: string = '';
-//     amountOfGuests: string = '';
-//     customerId: string = '';
-//     time: string = '';
-//     date: string = '';
-//     bookingActive: boolean = false;
-//     bookingFinished: boolean = false;
-//     phone: string = "";
-//     email: string = "";
-
-//    }
-
 export interface ISecondFormData {
     phone: "",
     name:"",
     email: "",
 }
-
-//LOREM
 
 export interface ICreatingBookingProps {
     formData: IFormData
