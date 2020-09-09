@@ -45,7 +45,6 @@ let lateBookingObject = [{
         const { getByText } = render(<CheckIfTableAvailable  showMessage={testshowMessage} formData={formDataObject} checkValidation={testFunction}  validationMessage={testValidationMessage} checkAvailability={testFunctionCheckAvailability} updateFormValues={testUpdateFormValues} earlyBookings={earlyBookingObject}
             lateBookings={lateBookingObject}/>)
         
-
         const h1Element = getByText(/Välkommen till purple-nurple/i);
     
         expect(h1Element).toBeInTheDocument();
