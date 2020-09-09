@@ -53,7 +53,7 @@ export function Tables(props: IpropsTable) {
 
             if(table.customerId === guest._id) {
                 return(
-                    // <div className="table" key={i}>
+
                         <div className="sittings table-active" id="first-sitting" key={i}>
                             <h3>Bokning</h3>
                             <p className="booking-info"><span>Datum:</span> <span>{table.date}</span></p>
@@ -65,7 +65,7 @@ export function Tables(props: IpropsTable) {
                             <div><button className="admin-buttons" onClick={() => deleteBooking(table._id)}>Ta bort bokning</button></div>
                             <div><Link to={'/admin/update/'+table._id}><button className="admin-buttons">Uppdatera bokning</button></Link></div> 
                         </div>
-                    // </div>
+
                 )
             }
             return null
