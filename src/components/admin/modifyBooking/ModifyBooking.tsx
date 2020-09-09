@@ -48,13 +48,7 @@ export class UpdateBooking {
         })
         
         let {id} = useParams();
-    
-        function updateBookingValues(
-            e: React.ChangeEvent<HTMLInputElement>,
-            id: keyof IUpdateBooking
-            ) {
-            setUpdateBookings({ ...updateBookings, [id]: e.target.value });
-        }
+       
         
         useEffect(() => {
             props.bookings.forEach(booking => {
@@ -74,6 +68,13 @@ export class UpdateBooking {
                 }
             });
         }, [])
+
+        function updateBookingValues(
+            e: React.ChangeEvent<HTMLInputElement>,
+            id: keyof IUpdateBooking
+            ) {
+            setUpdateBookings({ ...updateBookings, [id]: e.target.value });
+        }
 
         function updateButtonValues(
             e: string,
