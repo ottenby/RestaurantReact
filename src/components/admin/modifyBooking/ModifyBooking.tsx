@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { IBooking } from "../AdminParent";
 import { IGuest } from "../../guest/GuestParent";
 import axios from "axios";
+import Calendar from "react-calendar";
 
 interface IModifyBookingProps {
     guests: IGuest[];
@@ -28,6 +29,7 @@ export class UpdateBooking {
     
     export function ModifyBooking(props: IModifyBookingProps) {
 
+        const [date, setDate] = useState("");
         const [showUpdateMessage, setShowUpdateMessage] = useState(false);
         const [updateBookings, setUpdateBookings] = useState<IUpdateBooking>({
             amountOfGuests: "",
@@ -57,11 +59,20 @@ export class UpdateBooking {
             });
         }, []);
 
+        function updateDate(e: Date) {
+            let dateString =
+            e.toLocaleDateString(undefined, {year: "numeric"}) + "-" +
+            e.toLocaleDateString(undefined, { month: '2-digit' }) + "-" +
+            e.toLocaleDateString(undefined, { day: '2-digit' });
+            console.log(dateString);
+            setDate(dateString);
+        };
+
         function updateBookingValues(
             e: React.ChangeEvent<HTMLInputElement>,
             id: keyof IUpdateBooking
             ) {
-            setUpdateBookings({ ...updateBookings, [id]: e.target.value });
+            setUpdateBookings({ ...updateBookings, [id]: e.target.value, date });
         };
 
         function updateButtonValues(
@@ -82,7 +93,7 @@ export class UpdateBooking {
         let theBooking = (
             <div className="one-sitting">
                 <h3>Updatera bokning</h3>
-                <input type="date" name="date" value={updateBookings.date} onChange={e => updateBookingValues(e, "date")} />
+                <div><Calendar onClickDay={updateDate} /></div>
                 <p>Ny tid: </p><button className="time-buttons" onClick={e => updateButtonValues("18.00", "time")}>18:00</button>
                 <button className="time-buttons" onClick={e => updateButtonValues("20.30", "time")}>20:30</button>
                 <p>Antal gäster:</p><input type="number" name="amountOfGuests" min="1" max="6" 
