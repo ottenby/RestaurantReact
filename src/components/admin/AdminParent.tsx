@@ -24,7 +24,7 @@ import { Tables } from './tables/Tables';
   }
 
 export function AdminParent(props: IAdminParentProps) {
-
+    //Lifting state up. Får id på den borttagna bokningen från child (tables) och skickar vidare till grandparent (App)
     function sendUpdatedArrayToParent(id: string) {
         props.newArrayWithDeletedBooking(id)
     }

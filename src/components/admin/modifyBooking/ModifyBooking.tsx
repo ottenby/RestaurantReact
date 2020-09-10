@@ -28,9 +28,11 @@ export class UpdateBooking {
 }
     
     export function ModifyBooking(props: IModifyBookingProps) {
-
+        //State-variabel som uppdaterar datum vid klick
         const [date, setDate] = useState("");
+        //State-variabel som visar meddelande när bokningen är uppdaterad
         const [showUpdateMessage, setShowUpdateMessage] = useState(false);
+        //State-variabel som uppdaterar bokningen i fråga
         const [updateBookings, setUpdateBookings] = useState<IUpdateBooking>({
             amountOfGuests: "",
             time: "",
@@ -38,10 +40,10 @@ export class UpdateBooking {
             _id: "",
             customerId: ""
         });
-        
+        //Variabel id som tar emot id:t i params-urlen
         let {id} = useParams();
        
-        
+        //Hämtar alla bokningar från grandparent (App) vid sid-laddning
         useEffect(() => {
             props.bookings.forEach(booking => {
                 if(booking._id === id) {
@@ -59,29 +61,29 @@ export class UpdateBooking {
             });
         }, []);
 
+        //Funktion som omvandlar datum av typen Date i react-calendar, till string
         function updateDate(e: Date) {
             let dateString =
             e.toLocaleDateString(undefined, {year: "numeric"}) + "-" +
             e.toLocaleDateString(undefined, { month: '2-digit' }) + "-" +
             e.toLocaleDateString(undefined, { day: '2-digit' });
-            console.log(dateString);
             setDate(dateString);
         };
-
+        //Funktion som uppdaterar statet updateBookings vid onchange. Data kommer från inputfält och react-calendar
         function updateBookingValues(
             e: React.ChangeEvent<HTMLInputElement>,
             id: keyof IUpdateBooking
             ) {
             setUpdateBookings({ ...updateBookings, [id]: e.target.value, date });
         };
-
+        //Funktion som uppdaterar statet updateBookings vid klick på knappar (tiderna). Data kommer från buttons
         function updateButtonValues(
             e: string,
             id: keyof IUpdateBooking
         ) {
             setUpdateBookings({ ...updateBookings, [id]: e});
         };
-    
+        //Funktion som sparar uppdaterad information och skickar till databasen
         function saveUpdatedBooking() {
             axios.put("http://localhost:8000/admin/update/" + id, {updateBookings})
             .then(response => {
@@ -89,7 +91,7 @@ export class UpdateBooking {
             });
             setShowUpdateMessage(true)
         };
-
+        //Skapar upp vår html som ska visas i webbläsaren
         let theBooking = (
             <div className="one-sitting">
                 <h3>Updatera bokning</h3>

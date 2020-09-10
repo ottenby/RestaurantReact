@@ -7,25 +7,33 @@ import { ModifyBooking } from './components/admin/modifyBooking/ModifyBooking';
 
 function App() {
 
+    //State-variabel där alla bokningar från databasen lagras
     const [bookings, setBookings] = useState<IBooking[]>([]);
+    //State-variabel där alla gäster från databasen lagras
     const [guests, setGuests] = useState<IGuest[]>([]);
 
+    //Lifting state up från child (guestparent) där vi får den postade bokningen från grandchild (createbooking)
     function addBooking(b: IBooking) {
         let postedBookings = bookings;
         postedBookings.push(b);
+        //Pushar in den nya bokningen i dom existerade bokningarna som hämtats från databasen
         setBookings(postedBookings);
     };
 
+    //Används vid delete. Lifting state up. Får id på den borttagna bokningen från child (adminparent) som i sin tur fått id från grandchild (tables)
     function getEditedArray(id: string) {
+        //Här filtrerar vi ut id:t från bookings (bokningarna från databasen)
         const deleteBooking = bookings.filter((b) => {
             if (b._id !== id) {
                 return b;
             }
             return null;
         });
+        //Pushar in arrayen deleteBooking som filtrerat ut det borttagna id:t från databasen
         setBookings(deleteBooking);
     };
 
+    //Hämtar alla bokningar från databasen. Det görs vid sidladdning och sparas i bookings-statet
     useEffect(() => {
         axios.get("http://localhost:8000/").then(response => {
           let bookings: IBooking[] = response.data.map((b: IBooking) => {
@@ -42,6 +50,7 @@ function App() {
         
     }, []);
 
+    //Hämtar alla gäster från databasen. Det görs vid sidladdning och sparas i guests-statet
     useEffect(() => {
         axios.get("http://localhost:8000/guests").then(response => {
             let guests: IGuest[] = response.data.map((g: IGuest) => {

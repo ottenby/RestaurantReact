@@ -20,26 +20,23 @@ export interface ICreatingBookingProps {
 
 export function CreateBooking(props: ICreatingBookingProps) {
 
-    
+    //State-variabel av typen boolean som bestämmer om vi ska skriva ut validerings-meddelanden eller ej
+    const [showSecondMessage, setSecondShowMessage] = useState(false);
+    //Om alla värden är ifyllda korrekt så sätts isValid-statet till true och boka knappen syns
+    const [isValid, setIsValid] = useState(false);
+    //Om gdpr checkboxen är ibockad eller inte
+    const [GDPR, setGDPR] = useState(false);
+    //Vid boka-knapp så sätts showPopup värdet till true, och en popup dyker upp
+    const [showPopup, setShowPopup] = useState(false);
+    //State-variabel som lagrar värden från input-fälten
     const [secondFormData, setSecondFormData] = useState<ISecondFormData>({
         name:"",
         phone: "",
         email: "",
     });
-
-    function updateSecondFormValues(
-        e: React.ChangeEvent<HTMLInputElement>,
-        id: keyof ISecondFormData
-        ) {
-        setSecondFormData({ ...secondFormData, [id]: e.target.value});
-    }
-
-    const [showSecondMessage, setSecondShowMessage] = useState(false);
-    const [isValid, setIsValid] = useState(false);
-    const [GDPR, setGDPR] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
+    //State-variabel som lagrar en ny bokning från alla inputfälten
     const [aBooking, setABooking] = useState({
-        _id:   '',
+        _id: '',
         name: '',
         amountOfGuests: '',
         customerId: '',
@@ -49,11 +46,22 @@ export function CreateBooking(props: ICreatingBookingProps) {
         email: ""
     });
 
+    //Funktion som uppdaterar statet updateBookings vid onchange. Data kommer från inputfält och react-calendar
+    function updateSecondFormValues(
+        e: React.ChangeEvent<HTMLInputElement>,
+        id: keyof ISecondFormData
+        ) {
+        setSecondFormData({ ...secondFormData, [id]: e.target.value});
+    }
+
+    //Funktion som kollar om alla input-fält är ifyllda korrekt
     function checkSecondValidation() {
         if(secondFormData.name !== '' && secondFormData.email !== '' && secondFormData.phone !== '' && GDPR) {
             setIsValid(true)
         }
     };
+
+    //Funktion som visar valideringsmeddelande om något input-fält saknar info
     function secondMessage() {
       if(secondFormData.email === '' && secondFormData.phone === '' && secondFormData.name === '') {
         return(
@@ -74,19 +82,23 @@ export function CreateBooking(props: ICreatingBookingProps) {
       }
     };
 
+    //Funktion som togglar mellan true och false på GDPR checkboxen
     function handleCheckBoxClick() {
         setGDPR(!GDPR);
     };
 
+    //Funktion som öppnar popupen
     function openPopup() {
         setShowPopup(true);
     };
 
+    //Funktion som stänger popupen
     function closePopup() {
         setShowPopup(false);
+        window.location.href="/";
     };
 
-    // let aBooking = new Booking();
+    //Funktion som skapar en bokning med data från alla input-fält och knapptryck
     function newBooking(text: string) {
         setSecondShowMessage(true);
         aBooking.time = text;
@@ -95,10 +107,13 @@ export function CreateBooking(props: ICreatingBookingProps) {
         aBooking.name = secondFormData.name;
         aBooking.phone = secondFormData.phone;
         aBooking.email = secondFormData.email;
+        //Sparar aBooking i aBooking-statet
         setABooking(aBooking);
+        //Check-validation funktionen körs, kollar att allt är korrekt ifyllt
         checkSecondValidation();
     };
 
+    //Här postar vi bokningen mot databasen, och öppnar en popup
     function postBooking(aBooking: IBooking) {
         axios.post('http://localhost:8000/', aBooking)
         .then((response) => {
@@ -109,6 +124,7 @@ export function CreateBooking(props: ICreatingBookingProps) {
     
     return(
     <>
+    {/*HTML för inputfälten*/}
     <div className="second-booking-form" id="second-form">
     <div><input
         type="text"
@@ -132,13 +148,15 @@ export function CreateBooking(props: ICreatingBookingProps) {
         /></div>
        
     <div><input name="gdpr" type="checkbox" onClick={() => handleCheckBoxClick()} /> Jag godkänner att mina personuppgifter lagras</div>
+    {/*Dessa knappar renderas bara när det finns mindre än 15 bokningar på valt datum*/}
     {props.earlyBookings && props.earlyBookings.length < 14 &&   <button className="time-buttons" onClick={()=> {newBooking('18.00')}}>18.00</button>  }
     {props.lateBookings && props.lateBookings.length < 14 &&   <button className="time-buttons" onClick={()=> {newBooking('20.30')}}>20.30</button>  }
     
-    {isValid && <div><button className="book-button" onClick={() => postBooking(aBooking)}>Boka</button></div> }
+    {isValid && <div><button className="book-button" onClick={() => postBooking(aBooking)}>Boka</button></div>}
     {showSecondMessage && secondMessage()}
     </div>
 
+    {/*HTML för popupen som visas om showPopup är true*/}
     {showPopup && (
         <div className="popup-background">
             <div className="popup-container">
@@ -154,6 +172,7 @@ export function CreateBooking(props: ICreatingBookingProps) {
                     <br />
                     - Purple Nurple
                 </p>
+                {/*Stänger popupen*/}
                 <button className="close-popup-btn" onClick={closePopup}>Tack och hej leverpastej</button>
             </div>
         </div>
